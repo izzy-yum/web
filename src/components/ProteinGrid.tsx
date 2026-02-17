@@ -24,7 +24,7 @@ export default function ProteinGrid({ proteins }: ProteinGridProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-neutral-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,10 +32,10 @@ export default function ProteinGrid({ proteins }: ProteinGridProps) {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold text-slate-900 mb-4">
+          <h1 className="text-5xl font-heading font-bold text-neutral-900 mb-4">
             What are you cooking today?
           </h1>
-          <p className="text-xl text-slate-600">
+          <p className="text-xl text-neutral-600">
             Choose your protein to get started
           </p>
         </motion.div>
