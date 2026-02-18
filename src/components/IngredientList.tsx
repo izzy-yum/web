@@ -49,9 +49,9 @@ export default function IngredientList({ ingredients, showAmounts = false }: Ing
       </h2>
 
       {!showAmounts && (
-        <div className="bg-primary-100 border border-primary-300 rounded-xl p-4 mb-6">
-          <p className="text-sm text-primary-800">
-            <span className="font-semibold">Select serving size below</span> to see ingredient amounts
+        <div className="rounded-xl p-4 mb-6 border-2" style={{ backgroundColor: '#3a5a52', borderColor: '#52796f' }}>
+          <p className="text-sm text-white">
+            <span className="font-semibold">Select serving size above</span> to see ingredient amounts
           </p>
         </div>
       )}
