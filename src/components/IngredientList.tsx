@@ -49,32 +49,32 @@ export default function IngredientList({ ingredients, showAmounts = false }: Ing
       </h2>
 
       {!showAmounts && (
-        <div className="bg-accent-50 border border-accent-200 rounded-xl p-4 mb-6">
-          <p className="text-sm text-accent-800">
+        <div className="bg-primary-100 border border-primary-300 rounded-xl p-4 mb-6">
+          <p className="text-sm text-primary-800">
             <span className="font-semibold">Select serving size below</span> to see ingredient amounts
           </p>
         </div>
       )}
 
-      <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
+      <div className="rounded-2xl shadow-md p-6 space-y-6" style={{ backgroundColor: '#8d2831' }}>
         {categories.map((category) => (
           <div key={category}>
-            <h3 className="font-heading font-semibold text-neutral-800 mb-3 text-sm uppercase tracking-wide">
+            <h3 className="font-heading font-semibold text-neutral-100 mb-3 text-sm uppercase tracking-wide">
               {category}
             </h3>
             <ul className="space-y-2">
               {groupedIngredients[category].map((ing) => (
-                <li key={ing.id} className="flex items-start gap-3 text-neutral-700">
-                  <div className="mt-1.5 w-2 h-2 rounded-full bg-primary-400 flex-shrink-0" />
+                <li key={ing.id} className="flex items-start gap-3 text-neutral-50">
+                  <div className="mt-1.5 w-2 h-2 rounded-full bg-white flex-shrink-0" />
                   <div className="flex-1">
                     {showAmounts && ing.amount && (
-                      <span className="font-semibold text-neutral-900">
+                      <span className="font-semibold text-white">
                         {ing.amount} {ing.unit}{' '}
                       </span>
                     )}
                     <span className="capitalize">{ing.ingredient}</span>
-                    {ing.notes && (
-                      <span className="text-neutral-500 text-sm ml-2">({ing.notes})</span>
+                    {showAmounts && ing.notes && (
+                      <span className="text-neutral-200 text-sm ml-2">({ing.notes})</span>
                     )}
                   </div>
                 </li>

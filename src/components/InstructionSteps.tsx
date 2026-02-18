@@ -75,35 +75,31 @@ export default function InstructionSteps({ instructions }: InstructionStepsProps
 
       <div className="space-y-8">
         {orderedPhases.map((phase, phaseIndex) => (
-          <div key={phase} className="bg-white rounded-2xl shadow-md p-6">
-            <h3 className="text-xl font-heading font-bold text-primary-700 mb-4 flex items-center gap-2">
+          <div key={phase} className="rounded-2xl shadow-md p-6" style={{ backgroundColor: '#8d2831' }}>
+            <h3 className="text-xl font-heading font-bold text-white mb-4 flex items-center gap-2">
               {phaseIcons[phase]}
               {phaseLabels[phase]}
             </h3>
 
-            <ol className="space-y-4">
+            <ul className="space-y-4">
               {groupedInstructions[phase]
                 .sort((a, b) => a.step_number - b.step_number)
                 .map((inst, index) => (
-                  <li key={inst.id} className="flex gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-semibold flex items-center justify-center">
-                        {inst.step_number}
-                      </div>
-                    </div>
-                    <div className="flex-1 pt-0.5">
-                      <p className="text-neutral-700 leading-relaxed">
+                  <li key={inst.id} className="flex items-start gap-3">
+                    <div className="mt-1.5 w-2 h-2 rounded-full bg-white flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-neutral-50 leading-relaxed">
                         {inst.instruction}
                       </p>
                       {inst.clean_as_you_go && (
-                        <p className="mt-2 text-sm italic text-primary-600 bg-primary-50 rounded-lg px-3 py-2 inline-block">
+                        <p className="mt-2 text-sm italic text-white bg-neutral-800/30 rounded-lg px-3 py-2 inline-block">
                           Clean: {inst.clean_as_you_go}
                         </p>
                       )}
                     </div>
                   </li>
                 ))}
-            </ol>
+            </ul>
           </div>
         ))}
       </div>

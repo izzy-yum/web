@@ -35,11 +35,12 @@ export default function IngredientWheel({
       <div className="flex gap-3 overflow-x-auto pb-4 px-4 scrollbar-hide">
         <button
           onClick={() => onSelect(null)}
-          className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-300 ${
-            selectedIngredient === null
-              ? 'bg-primary-500 text-white shadow-lg scale-105'
-              : 'bg-white text-neutral-700 hover:bg-neutral-100 shadow'
+          className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-300 shadow ${
+            selectedIngredient === null ? 'text-white scale-105' : 'text-white'
           }`}
+          style={{
+            backgroundColor: selectedIngredient === null ? '#3a5a52' : '#8d2831'
+          }}
         >
           All
         </button>
@@ -49,11 +50,12 @@ export default function IngredientWheel({
             onClick={() => onSelect(item.slug)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-300 ${
-              selectedIngredient === item.slug
-                ? 'bg-primary-500 text-white shadow-lg scale-105'
-                : 'bg-white text-neutral-700 hover:bg-neutral-100 shadow'
+            className={`px-6 py-3 rounded-full font-medium whitespace-nowrap transition-all duration-300 shadow ${
+              selectedIngredient === item.slug ? 'text-white scale-105' : 'text-white'
             }`}
+            style={{
+              backgroundColor: selectedIngredient === item.slug ? '#3a5a52' : '#8d2831'
+            }}
           >
             {item.ingredient}
           </motion.button>

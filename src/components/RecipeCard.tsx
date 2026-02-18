@@ -39,7 +39,7 @@ export default function RecipeCard({
       onClick={handleClick}
       className="cursor-pointer group"
     >
-      <div className="bg-white rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
+      <div className="rounded-2xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300" style={{ backgroundColor: '#8d2831' }}>
         <div className="relative aspect-[4/3]">
           <Image
             src={image_url}
@@ -50,13 +50,13 @@ export default function RecipeCard({
           />
         </div>
         <div className="p-5">
-          <h3 className="font-heading font-bold text-xl text-neutral-900 mb-3 line-clamp-2">
+          <h3 className="font-heading font-bold text-xl text-white mb-3 line-clamp-2">
             {name}
           </h3>
-          <div className="flex items-center gap-4 text-sm text-neutral-600">
+          <div className="flex items-center gap-4 text-sm text-neutral-50">
             <div className="flex items-center gap-1">
               <svg
-                className="w-4 h-4 text-primary-500"
+                className="w-4 h-4 text-white"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"

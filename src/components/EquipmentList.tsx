@@ -32,12 +32,12 @@ export default function EquipmentList({ equipment }: EquipmentListProps) {
         Equipment Needed
       </h2>
 
-      <div className="bg-white rounded-2xl shadow-md p-6">
+      <div className="rounded-2xl shadow-md p-6" style={{ backgroundColor: '#8d2831' }}>
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {equipment.map((item) => (
             <li key={item.id} className="flex items-start gap-3">
-              <div className="mt-1.5 w-2 h-2 rounded-full bg-primary-400 flex-shrink-0" />
-              <span className="text-neutral-700">{item.equipment}</span>
+              <div className="mt-1.5 w-2 h-2 rounded-full bg-white flex-shrink-0" />
+              <span className="text-neutral-50">{item.equipment}</span>
             </li>
           ))}
         </ul>

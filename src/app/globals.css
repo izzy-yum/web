@@ -15,17 +15,17 @@
   --color-primary-800: #1e2f2c;
   --color-primary-900: #1a2826;
 
-  /* Accent - Coral/Orange */
-  --color-accent-50: #fff5f5;
-  --color-accent-100: #ffe3e3;
-  --color-accent-200: #ffcccc;
-  --color-accent-300: #ffa07a;
-  --color-accent-400: #ff6b6b;
-  --color-accent-500: #f44336;
-  --color-accent-600: #e53935;
-  --color-accent-700: #c62828;
-  --color-accent-800: #b71c1c;
-  --color-accent-900: #8b1818;
+  /* Accent - Warm Orange (for panels) */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
 
   /* Neutrals - Warm Grays */
   --color-neutral-50: #fafaf9;
@@ -45,10 +45,43 @@
 }
 
 @theme inline {
-  /* Color palette */
-  --color-primary-*: initial;
-  --color-accent-*: initial;
-  --color-neutral-*: initial;
+  /* Primary - Sage Green */
+  --color-primary-50: #f7faf9;
+  --color-primary-100: #d8eade;
+  --color-primary-200: #b1d5bd;
+  --color-primary-300: #84a98c;
+  --color-primary-400: #52796f;
+  --color-primary-500: #3a5a52;
+  --color-primary-600: #2d4841;
+  --color-primary-700: #243a35;
+  --color-primary-800: #1e2f2c;
+  --color-primary-900: #1a2826;
+
+  /* Accent - Warm Orange */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
+
+  /* Neutrals - Warm Grays */
+  --color-neutral-50: #fafaf9;
+  --color-neutral-100: #f5f3f0;
+  --color-neutral-200: #e8e4df;
+  --color-neutral-300: #d4cfc7;
+  --color-neutral-400: #a8a199;
+  --color-neutral-500: #857c72;
+  --color-neutral-600: #6b6159;
+  --color-neutral-700: #544d47;
+  --color-neutral-800: #3e3a36;
+  --color-neutral-900: #2b2825;
+
+  /* Base colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
