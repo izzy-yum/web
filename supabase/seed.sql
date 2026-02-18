@@ -233,11 +233,11 @@ SELECT r.id, ingredient, amount, unit, category, is_secondary, notes, sort_order
 FROM recipes r,
 (VALUES
     ('large shrimp', 1, 'lb', 'Proteins', false, 'peeled and deveined', 1),
-    ('coconut milk', 14, 'oz', 'Pantry', true, '1 can', 2),
+    ('coconut milk', 14, 'oz', 'Pantry', true, '', 2),
     ('gluten-free green curry paste', 2, 'tbsp', 'Pantry', true, '', 3),
-    ('bamboo shoots', 1, 'cup', 'Produce', false, 'drained', 4),
-    ('red bell pepper', 1, '', 'Produce', false, 'sliced into thin strips', 5),
-    ('fresh Thai basil', null, 'bunch', 'Produce', true, 'leaves picked from stems', 6),
+    ('bamboo shoots', 1, 'cup', 'Produce', false, '', 4),
+    ('red bell pepper', 1, '', 'Produce', false, '', 5),
+    ('fresh Thai basil', null, 'bunch', 'Produce', true, '', 6),
     ('gluten-free fish sauce', 2, 'tbsp', 'Pantry', false, '', 7),
     ('coconut sugar', 1, 'tbsp', 'Pantry', true, '', 8),
     ('jasmine rice', null, '', 'Pantry', false, 'for serving', 9)
