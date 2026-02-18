@@ -13,6 +13,8 @@ export default async function RecipePage({
     .from('recipes')
     .select(`
       *,
+      proteins (name, slug),
+      cuisines (name, slug),
       recipe_equipment (*),
       recipe_ingredients (*),
       recipe_instructions (*)

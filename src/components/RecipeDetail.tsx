@@ -6,6 +6,7 @@ import ServingSizeSelector from './ServingSizeSelector'
 import EquipmentList from './EquipmentList'
 import IngredientList from './IngredientList'
 import InstructionSteps from './InstructionSteps'
+import Breadcrumb from './Breadcrumb'
 
 interface Recipe {
   id: string
@@ -21,6 +22,8 @@ interface Recipe {
   recipe_equipment: any[]
   recipe_ingredients: any[]
   recipe_instructions: any[]
+  proteins?: { name: string; slug: string }
+  cuisines?: { name: string; slug: string }
 }
 
 interface RecipeDetailProps {
@@ -68,9 +71,24 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const displayRecipe = calculatedRecipe || initialRecipe
   const showAmounts = selectedServings !== null && calculatedRecipe !== null
 
+  const proteinSlug = initialRecipe.proteins?.slug
+  const proteinName = initialRecipe.proteins?.name
+  const cuisineSlug = initialRecipe.cuisines?.slug
+  const cuisineName = initialRecipe.cuisines?.name
+
   return (
     <div className="min-h-screen bg-primary-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {proteinSlug && cuisineSlug && (
+          <Breadcrumb
+            items={[
+              { label: proteinName || proteinSlug, href: `/cuisine?protein=${proteinSlug}` },
+              { label: cuisineName || cuisineSlug, href: `/recipes?protein=${proteinSlug}&cuisine=${cuisineSlug}` },
+              { label: displayRecipe.name, href: `/recipe/${displayRecipe.slug}` },
+            ]}
+          />
+        )}
+
         <RecipeHeader
           name={displayRecipe.name}
           image_url={displayRecipe.image_url}

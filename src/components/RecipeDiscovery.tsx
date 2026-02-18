@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import RecipeCard from './RecipeCard'
 import IngredientWheel from './IngredientWheel'
+import Breadcrumb from './Breadcrumb'
 
 interface Recipe {
   id: string
@@ -56,15 +57,19 @@ export default function RecipeDiscovery({
   return (
     <div className="min-h-screen bg-primary-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        <Breadcrumb
+          items={[
+            { label: protein, href: `/cuisine?protein=${protein}` },
+            { label: cuisine, href: `/recipes?protein=${protein}&cuisine=${cuisine}` },
+          ]}
+        />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="text-sm font-medium text-primary-600 uppercase tracking-wide mb-2">
-            <span className="capitalize">{protein}</span> • <span className="capitalize">{cuisine}</span>
-          </p>
           <h1 className="text-5xl font-heading font-bold text-neutral-900 mb-4">
             Discover Your Recipe
           </h1>
