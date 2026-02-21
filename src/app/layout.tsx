@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -11,6 +11,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 const inter = Inter({
   variable: "--font-body",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-handwriting",
   subsets: ["latin"],
   display: "swap",
 });
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${plusJakartaSans.variable} ${inter.variable} font-body antialiased`}
+        className={`${plusJakartaSans.variable} ${inter.variable} ${caveat.variable} font-body antialiased`}
       >
         <Navbar />
         {children}
