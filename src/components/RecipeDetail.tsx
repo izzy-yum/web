@@ -7,6 +7,7 @@ import EquipmentList from './EquipmentList'
 import IngredientList from './IngredientList'
 import InstructionSteps from './InstructionSteps'
 import Breadcrumb from './Breadcrumb'
+import ShoppingListPanel from './ShoppingListPanel'
 
 interface Recipe {
   id: string
@@ -35,6 +36,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const [calculatedRecipe, setCalculatedRecipe] = useState<Recipe | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isShoppingListOpen, setIsShoppingListOpen] = useState(false)
 
   const handleServingSelect = async (servings: number) => {
     setSelectedServings(servings)
@@ -106,6 +108,22 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
           isLoading={isLoading}
         />
 
+        {/* Shopping List Button */}
+        {selectedServings && calculatedRecipe && (
+          <div className="mb-6 flex justify-center">
+            <button
+              onClick={() => setIsShoppingListOpen(true)}
+              style={{ backgroundColor: '#1e2f2c' }}
+              className="px-6 py-3 text-base font-semibold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-opacity shadow-lg hover:opacity-90 flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Generate Shopping List
+            </button>
+          </div>
+        )}
+
         {error && (
           <div className="mb-6 p-4 bg-red-100 border border-red-300 rounded-xl">
             <p className="text-red-800">{error}</p>
@@ -120,14 +138,16 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
         />
 
         <InstructionSteps instructions={displayRecipe.recipe_instructions || []} />
-
-        {/* Send to Phone button will be added in Issue #11 */}
-        <div className="mt-12 p-6 rounded-2xl text-center" style={{ backgroundColor: '#8d2831' }}>
-          <p className="text-white">
-            Send shopping list to phone feature coming soon! (Issue #11)
-          </p>
-        </div>
       </div>
+
+      {/* Shopping List Side Panel */}
+      <ShoppingListPanel
+        isOpen={isShoppingListOpen}
+        onClose={() => setIsShoppingListOpen(false)}
+        ingredients={calculatedRecipe?.recipe_ingredients || []}
+        recipeName={initialRecipe.name}
+        servings={selectedServings || initialRecipe.default_servings}
+      />
     </div>
   )
 }
