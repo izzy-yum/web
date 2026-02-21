@@ -14,6 +14,17 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Verification step
+  const [showVerification, setShowVerification] = useState(false)
+  const [emailCode, setEmailCode] = useState('')
+  const [phoneCode, setPhoneCode] = useState('')
+  const [verifying, setVerifying] = useState(false)
+
+  // Validation states
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  const passwordValid = password.length >= 6
+  const phoneValid = /^\+?1?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/.test(phone)
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -32,11 +43,45 @@ export default function RegisterPage() {
 
       if (error) throw error
 
-      // Redirect to email verification page
-      router.push('/verify-email')
+      // Show verification panel
+      setShowVerification(true)
+      setLoading(false)
     } catch (err: any) {
       setError(err.message || 'An error occurred during registration')
       setLoading(false)
+    }
+  }
+
+  const handleVerification = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setVerifying(true)
+    setError(null)
+
+    try {
+      // For now, accept "1234" for both codes
+      if (emailCode !== '1234' || phoneCode !== '1234') {
+        setError('Invalid verification codes. Enter 1234 for both codes.')
+        setVerifying(false)
+        return
+      }
+
+      // Sign in the user (email confirmations are disabled in local config)
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (error) {
+        setError(`Sign-in error: ${error.message}`)
+        setVerifying(false)
+        return
+      }
+
+      // Successfully signed in - redirect to home page
+      router.push('/')
+    } catch (err: any) {
+      setError(err.message || 'Verification failed')
+      setVerifying(false)
     }
   }
 
@@ -59,9 +104,9 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <div className="space-y-4">
+          <div className="rounded-2xl shadow-md p-6 space-y-4" style={{ backgroundColor: '#8d2831' }}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
                 Email address
               </label>
               <input
@@ -72,13 +117,13 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm"
+                className={`appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm ${emailValid && email ? 'font-bold' : ''}`}
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
                 Password
               </label>
               <input
@@ -89,14 +134,14 @@ export default function RegisterPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm"
+                className={`appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm ${passwordValid && password ? 'font-bold' : ''}`}
                 placeholder="Minimum 6 characters"
                 minLength={6}
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-white mb-1">
                 Phone number
               </label>
               <input
@@ -107,32 +152,88 @@ export default function RegisterPage() {
                 required
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm"
+                className={`appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm ${phoneValid && phone ? 'font-bold' : ''}`}
                 placeholder="+1 (555) 123-4567"
               />
-              <p className="mt-1 text-xs text-neutral-500">
+              <p className="mt-1 text-xs text-neutral-200">
                 Required for iOS app push notifications
               </p>
             </div>
-          </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {loading ? 'Creating account...' : 'Sign up'}
-            </button>
-          </div>
-
-          <div className="text-sm text-center">
-            <span className="text-neutral-600">Already have an account? </span>
-            <Link href="/login" className="font-medium text-primary-600 hover:text-primary-700 transition-colors">
-              Sign in
-            </Link>
+            <div className="pt-4">
+              <button
+                type="submit"
+                disabled={loading}
+                style={{ backgroundColor: '#1e2f2c' }}
+                className="w-full flex justify-center py-3 px-4 text-base font-semibold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:opacity-90"
+              >
+                {loading ? 'Creating account...' : 'Sign Up'}
+              </button>
+            </div>
           </div>
         </form>
+
+        {/* Verification Panel */}
+        {showVerification && (
+          <form className="mt-6" onSubmit={handleVerification}>
+            <div className="rounded-2xl shadow-md p-6 space-y-4" style={{ backgroundColor: '#8d2831' }}>
+              <h3 className="text-xl font-heading font-bold text-white mb-4">
+                Verify your account
+              </h3>
+
+              <div>
+                <label htmlFor="emailCode" className="block text-sm font-medium text-white mb-1">
+                  Email verification code
+                </label>
+                <input
+                  id="emailCode"
+                  name="emailCode"
+                  type="text"
+                  required
+                  maxLength={4}
+                  value={emailCode}
+                  onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, ''))}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono"
+                  placeholder="1234"
+                />
+                <p className="mt-1 text-xs text-neutral-200">
+                  Enter the code sent to your email
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="phoneCode" className="block text-sm font-medium text-white mb-1">
+                  Phone verification code
+                </label>
+                <input
+                  id="phoneCode"
+                  name="phoneCode"
+                  type="text"
+                  required
+                  maxLength={4}
+                  value={phoneCode}
+                  onChange={(e) => setPhoneCode(e.target.value.replace(/\D/g, ''))}
+                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono"
+                  placeholder="1234"
+                />
+                <p className="mt-1 text-xs text-neutral-200">
+                  Enter the code sent to your phone
+                </p>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={verifying || emailCode.length !== 4 || phoneCode.length !== 4}
+                  style={{ backgroundColor: '#1e2f2c' }}
+                  className="w-full flex justify-center py-3 px-4 text-base font-semibold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:opacity-90"
+                >
+                  {verifying ? 'Verifying...' : 'Complete Registration'}
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   )
