@@ -32,11 +32,14 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-primary-50 border-b border-black z-50">
+    <nav
+      style={{ backgroundColor: '#1e2f2c' }}
+      className="fixed top-0 left-0 right-0 border-b border-black z-50"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-12">
           {/* Logo/Brand */}
-          <Link href="/" className="text-xl font-heading font-bold text-neutral-900 hover:text-primary-600 transition-colors">
+          <Link href="/" className="text-xl font-heading font-bold text-white hover:text-primary-200 transition-colors">
             Izzy Yum
           </Link>
 
@@ -44,10 +47,10 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             {user ? (
               <>
-                <span className="text-sm text-neutral-700">{user.email}</span>
+                <span className="text-sm text-neutral-200">{user.email}</span>
                 <button
                   onClick={handleSignOut}
-                  className="px-4 py-2 text-sm font-medium text-neutral-700 hover:text-neutral-900 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-neutral-200 hover:text-white transition-colors"
                 >
                   Sign out
                 </button>
@@ -56,13 +59,13 @@ export default function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-neutral-700 hover:text-neutral-900 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-neutral-200 hover:text-white transition-colors"
                 >
                   Sign in
                 </Link>
                 <Link
                   href="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-lg transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-neutral-900 bg-primary-100 hover:bg-primary-200 rounded-lg transition-colors"
                 >
                   Sign up
                 </Link>
