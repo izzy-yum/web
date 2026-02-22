@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { decimalToFraction } from '@/lib/fractions'
 
 interface Ingredient {
   id: string
@@ -69,7 +70,7 @@ export default function IngredientList({ ingredients, showAmounts = false }: Ing
                   <div className="flex-1">
                     {showAmounts && ing.amount && (
                       <span className="font-semibold text-white">
-                        {ing.amount} {ing.unit}{' '}
+                        {decimalToFraction(ing.amount)} {ing.unit}{' '}
                       </span>
                     )}
                     <span className="capitalize">{ing.ingredient}</span>

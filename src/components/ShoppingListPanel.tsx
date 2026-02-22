@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { decimalToFraction } from '@/lib/fractions'
 
 interface Ingredient {
   id: string
@@ -59,7 +60,7 @@ export default function ShoppingListPanel({
     Object.keys(grouped).sort().forEach(category => {
       message += `${category}:\n`
       grouped[category].forEach(ing => {
-        const amount = ing.amount && ing.unit ? `${ing.amount} ${ing.unit}` : ''
+        const amount = ing.amount && ing.unit ? `${decimalToFraction(ing.amount)} ${ing.unit}` : ''
         message += `  • ${amount} ${ing.ingredient}\n`
       })
       message += '\n'
@@ -156,7 +157,7 @@ export default function ShoppingListPanel({
                             >
                               {ing.amount && ing.unit && (
                                 <span className="font-bold">
-                                  {ing.amount} {ing.unit}{' '}
+                                  {decimalToFraction(ing.amount)} {ing.unit}{' '}
                                 </span>
                               )}
                               <span className="capitalize">{ing.ingredient}</span>
