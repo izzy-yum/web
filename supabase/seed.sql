@@ -203,6 +203,23 @@ SELECT
 FROM proteins p, cuisines c
 WHERE p.slug = 'lamb' AND c.slug = 'mediterranean';
 
+-- Recipe 11: Baked Beef Curry
+INSERT INTO recipes (name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings)
+SELECT
+    'Baked Beef Curry',
+    'baked-beef-curry',
+    'An incredible, flavoursome baked beef curry with fragrant spices, coconut milk, tomato and fresh chilli. Enjoy with gluten-free naan or rice.',
+    p.id,
+    c.id,
+    '/images/beef-curry.jpeg',
+    10,
+    210,
+    220,
+    'Medium',
+    4
+FROM proteins p, cuisines c
+WHERE p.slug = 'beef' AND c.slug = 'indian';
+
 -- ============================================================================
 -- RECIPE EQUIPMENT
 -- ============================================================================
@@ -222,6 +239,22 @@ FROM recipes r,
     ('Wooden spoon or spatula', 'Cooking', 8)
 ) AS equipment_data(equipment, category, sort_order)
 WHERE r.slug = 'green-curry-shrimp';
+
+-- Baked Beef Curry Equipment
+INSERT INTO recipe_equipment (recipe_id, equipment, category, sort_order)
+SELECT r.id, equipment, category, sort_order
+FROM recipes r,
+(VALUES
+    ('Large oven-safe lidded casserole dish', 'Cooking', 1),
+    ('Chef''s knife', 'Prep', 2),
+    ('Cutting board', 'Prep', 3),
+    ('Measuring spoons', 'Measuring', 4),
+    ('Measuring cups', 'Measuring', 5),
+    ('Small prep bowls (3-4)', 'Prep', 6),
+    ('Wooden spoon or spatula', 'Cooking', 7),
+    ('Plate for setting aside browned beef', 'Prep', 8)
+) AS equipment_data(equipment, category, sort_order)
+WHERE r.slug = 'baked-beef-curry';
 
 -- ============================================================================
 -- RECIPE INGREDIENTS (for 2 servings - default)
@@ -243,6 +276,30 @@ FROM recipes r,
     ('jasmine rice', null, '', 'Pantry', false, 'for serving', 9)
 ) AS ingredient_data(ingredient, amount, unit, category, is_secondary, notes, sort_order)
 WHERE r.slug = 'green-curry-shrimp';
+
+-- Baked Beef Curry Ingredients (for 4 servings - default)
+INSERT INTO recipe_ingredients (recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order)
+SELECT r.id, ingredient, amount, unit, category, is_secondary, notes, sort_order
+FROM recipes r,
+(VALUES
+    ('braising/chuck steak', 1, 'kg', 'Proteins', false, 'cut into chunks', 1),
+    ('brown onions', 2, '', 'Produce', false, 'finely diced', 2),
+    ('garlic', 4, 'cloves', 'Produce', false, 'finely minced', 3),
+    ('fresh ginger', 1, 'tbsp', 'Produce', true, 'ginger paste or thumb-sized piece finely minced', 4),
+    ('red chilli', 1, '', 'Produce', true, 'deseeded and finely sliced', 5),
+    ('fresh cilantro', null, '', 'Produce', false, 'for garnish (optional)', 6),
+    ('ground coriander', 1, 'tbsp', 'Pantry', true, '', 7),
+    ('ground cumin', 1, 'tbsp', 'Pantry', true, '', 8),
+    ('garam masala', 1, 'tbsp', 'Pantry', true, '', 9),
+    ('ground cinnamon', 1, 'tsp', 'Pantry', true, '', 10),
+    ('chopped tomatoes', 800, 'g', 'Pantry', true, '2 x 400g tins', 11),
+    ('water', 200, 'ml', 'Pantry', false, 'plus extra 100ml if needed', 12),
+    ('vegetable oil', 2, 'tbsp', 'Pantry', false, 'divided', 13),
+    ('salt and pepper', null, '', 'Pantry', false, 'to taste', 14),
+    ('butter', 1, 'tbsp', 'Dairy', false, 'knob-sized', 15),
+    ('coconut cream', 250, 'ml', 'Dairy', true, '', 16)
+) AS ingredient_data(ingredient, amount, unit, category, is_secondary, notes, sort_order)
+WHERE r.slug = 'baked-beef-curry';
 
 -- ============================================================================
 -- RECIPE INSTRUCTIONS
@@ -275,6 +332,42 @@ FROM recipes r,
 ) AS instruction_data(phase, step_number, instruction, has_quantity, clean_as_you_go)
 WHERE r.slug = 'green-curry-shrimp';
 
+-- Baked Beef Curry Instructions
+INSERT INTO recipe_instructions (recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go)
+SELECT r.id, phase, step_number, instruction, has_quantity, clean_as_you_go
+FROM recipes r,
+(VALUES
+    ('mise_en_place', 1, 'Preheat oven to 160°C (fan)', false, null),
+    ('mise_en_place', 2, 'Cut braising/chuck steak into chunks, pat dry', false, null),
+    ('mise_en_place', 3, 'Finely dice brown onions', false, null),
+    ('mise_en_place', 4, 'Finely mince garlic cloves', false, null),
+    ('mise_en_place', 5, 'Prepare ginger (paste or minced)', false, null),
+    ('mise_en_place', 6, 'Deseed and finely slice red chilli (keep seeds for extra spice)', false, null),
+    ('mise_en_place', 7, 'Measure spices into bowl: ground coriander, ground cumin, garam masala, ground cinnamon', false, null),
+    ('mise_en_place', 8, 'Open tins of chopped tomatoes', false, null),
+    ('mise_en_place', 9, 'Measure coconut cream into small bowl', false, 'Wash cutting board, knife, and measuring tools.'),
+    ('cooking', 1, 'Heat casserole dish over medium-high heat', false, null),
+    ('cooking', 2, 'Add butter and 1 tbsp vegetable oil to dish', false, null),
+    ('cooking', 3, 'Add beef chunks, cook 5-10 minutes until browned and liquid evaporates', false, null),
+    ('cooking', 4, 'Remove beef to plate and set aside', false, 'Wipe plate rim if needed.'),
+    ('cooking', 5, 'Reduce heat to low, add diced onions and 1 tbsp vegetable oil', false, null),
+    ('cooking', 6, 'Cook onions 10 minutes to soften', false, null),
+    ('cooking', 7, 'Add minced garlic and ginger, cook 1-2 minutes', false, null),
+    ('cooking', 8, 'Add spice mixture and sliced chilli, cook 2 minutes until fragrant', false, null),
+    ('cooking', 9, 'Return beef to pan, stir well to coat with spices', false, null),
+    ('cooking', 10, 'Add chopped tomatoes and 200ml water (half-fill one tomato tin)', false, 'Rinse empty tomato tins and measuring cup.'),
+    ('cooking', 11, 'Bring to boil, then cover with lid and transfer to oven', false, null),
+    ('cooking', 12, 'Bake 3 hours, checking after 1.5-2 hours and adding 100ml water if dry', false, null),
+    ('cooking', 13, 'Remove from oven (meat should be very tender)', false, null),
+    ('cooking', 14, 'Place back on stovetop, stir in coconut cream', false, null),
+    ('cooking', 15, 'Bring to simmer and cook 5-10 minutes', false, null),
+    ('cooking', 16, 'Taste and adjust seasoning with salt and pepper', false, null),
+    ('plating', 1, 'Ladle curry into bowls', false, null),
+    ('plating', 2, 'Garnish with fresh cilantro and extra chilli slices if desired', false, null),
+    ('plating', 3, 'Serve with gluten-free naan or rice', false, 'Let casserole dish cool, then soak in warm soapy water.')
+) AS instruction_data(phase, step_number, instruction, has_quantity, clean_as_you_go)
+WHERE r.slug = 'baked-beef-curry';
+
 -- ============================================================================
 -- SECONDARY INGREDIENTS (for ingredient wheel filtering)
 -- ============================================================================
@@ -290,6 +383,20 @@ FROM recipes r,
     ('Curry', 'curry')
 ) AS secondary_data(ingredient, slug)
 WHERE r.slug = 'green-curry-shrimp';
+
+-- Baked Beef Curry Secondary Ingredients
+INSERT INTO secondary_ingredients (recipe_id, ingredient, slug)
+SELECT r.id, secondary_data.ingredient, secondary_data.slug
+FROM recipes r,
+(VALUES
+    ('Coconut', 'coconut'),
+    ('Tomato', 'tomato'),
+    ('Chilli', 'chilli'),
+    ('Ginger', 'ginger'),
+    ('Coriander', 'coriander'),
+    ('Garam Masala', 'garam-masala')
+) AS secondary_data(ingredient, slug)
+WHERE r.slug = 'baked-beef-curry';
 
 -- ============================================================================
 -- INGREDIENT SUBSTITUTIONS
