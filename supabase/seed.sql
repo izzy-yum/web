@@ -2,31 +2,6 @@
 -- Complete export of all 23 recipes with equipment, ingredients, instructions
 -- Images from Unsplash and local files (some temporary - replace before production)
 
---
--- PostgreSQL database dump
---
-
-\restrict 3jnXnm2ndpDmEeQqhuUNVjyLzEVAv0Qq0HiDeY4ZDy9H2FA6UQDzeGZRqi4Pl77
-
--- Dumped from database version 17.4
--- Dumped by pg_dump version 17.7 (Postgres.app)
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Data for Name: cuisines; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('44203339-d485-4192-b5a1-8d0ce4766910', 'Thai', 'thai', 'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800&h=600&fit=crop', 'Bold flavors with lemongrass, chilies, and coconut', 1);
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('c535a78a-f384-4bf9-9d54-7a340585c529', 'Italian', 'italian', 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800&h=600&fit=crop', 'Classic dishes with tomatoes, garlic, and fresh herbs', 2);
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('c12d3984-7938-444e-8cb9-9ea5541e3a17', 'Mexican', 'mexican', 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop', 'Vibrant flavors with peppers, lime, and fresh cilantro', 3);
@@ -37,12 +12,6 @@ INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order)
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('5841a337-b3a8-447e-ab1d-dd098573ccde', 'Korean', 'korean', 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&h=600&fit=crop', 'Bold tastes with gochugaru, sesame, and fermented ingredients', 8);
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('323d4e24-99bf-4c7f-8254-8512b781ee4c', 'Vietnamese', 'vietnamese', 'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800&h=600&fit=crop', 'Fresh flavors with herbs, lime, and fish sauce', 9);
 INSERT INTO public.cuisines (id, name, slug, image_url, description, sort_order) VALUES ('5ab4e399-f3b6-4c90-8738-5d17816ae873', 'American', 'american', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&h=600&fit=crop', 'Classic comfort food with bold, hearty flavors', 10);
-
-
---
--- Data for Name: ingredient_substitutions; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('23869b57-9f05-414e-bae6-a5fc095f2fa5', 'gluten-free green curry paste', '["Mae Ploy (yellow label)", "Aroy-D"]', '["Thai Kitchen"]', '[{"name": "Yellow curry paste", "note": "Slightly different flavor but still delicious", "amount": "same quantity"}, {"name": "Make your own", "note": "Blend all ingredients together", "ingredients": ["2 tbsp fresh basil", "1 tbsp fresh cilantro", "1 green chili", "1 tbsp lime juice", "1 clove garlic"]}]');
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('8ca73a45-ec7d-431a-ae80-c31d06d88309', 'gluten-free fish sauce', '["Red Boat", "Three Crabs"]', '["Thai Kitchen"]', '[{"name": "Coconut aminos", "note": "Less salty, slightly sweeter", "amount": "same quantity"}, {"name": "Tamari + salt", "note": "Gluten-free soy sauce alternative", "amount": "1 tbsp tamari + pinch of salt per tbsp fish sauce"}]');
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('2b865711-bd42-4060-bcfc-0c2ef54ba83f', 'gluten-free soy sauce', '["Kikkoman Gluten-Free", "San-J Tamari"]', '["La Choy Gluten-Free", "Trader Joe''s Gluten-Free"]', '[{"name": "Coconut aminos", "note": "Slightly sweeter, less salty", "amount": "same quantity"}, {"name": "Liquid aminos", "note": "Similar flavor profile", "amount": "same quantity"}]');
@@ -57,12 +26,6 @@ INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands,
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('b27601d6-03d7-4457-b7f6-3b431304d796', 'gluten-free bread crumbs', '["Ian''s Panko", "Aleia''s"]', '["4C Gluten-Free", "Progresso Gluten-Free"]', '[{"name": "Crushed gluten-free cereal", "note": "Rice Chex or Corn Flakes work well", "amount": "same quantity"}, {"name": "Almond flour + parmesan", "note": "Adds extra flavor", "amount": "mix 1:1 ratio"}]');
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('08bb3835-302e-4c55-8637-e97dc12cdf81', 'gluten-free flour', '["King Arthur Measure for Measure", "Bob''s Red Mill 1-to-1"]', '["Cup4Cup", "Pamela''s"]', '[{"name": "Almond flour", "note": "Not suitable for all baking", "amount": "1:1 for some recipes"}, {"name": "Rice flour blend", "note": "May need xanthan gum added", "amount": "varies by recipe"}]');
 INSERT INTO public.ingredient_substitutions (id, ingredient, recommended_brands, alternative_brands, substitutes) VALUES ('8c14a62a-3529-4d42-8ee7-b797f5bff63e', 'gluten-free tortillas', '["Mission Gluten-Free", "Siete (grain-free)"]', '["BFree", "Trader Joe''s Gluten-Free"]', '[{"name": "Corn tortillas", "note": "100% corn is naturally gluten-free", "amount": "same quantity"}, {"name": "Lettuce wraps", "note": "Lower carb, fresh alternative", "amount": "same quantity"}]');
-
-
---
--- Data for Name: proteins; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('24073280-3225-43a6-b994-dea51052f07d', 'Shrimp', 'shrimp', 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=800&h=600&fit=crop', 1);
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('e93e8dd9-d381-44b7-a010-7188e8f9686b', 'Chicken', 'chicken', 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=800&h=600&fit=crop', 2);
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('840c7d6e-3db1-4e06-9ca8-960b41366cb2', 'Beef', 'beef', 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=800&h=600&fit=crop', 3);
@@ -71,12 +34,6 @@ INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('796
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('5e7634c3-b25c-4d43-bc2e-32860c9288e1', 'Eggs', 'eggs', 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=800&h=600&fit=crop', 6);
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('559f323e-84db-40c9-af0f-9c3312e7b403', 'Pork', 'pork', 'https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?w=800&h=600&fit=crop', 7);
 INSERT INTO public.proteins (id, name, slug, image_url, sort_order) VALUES ('7cef96ce-4fe7-408d-8eff-7d3f53c16852', 'Lamb', 'lamb', 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&h=600&fit=crop', 8);
-
-
---
--- Data for Name: recipes; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('e9d01598-ac89-4b70-9794-35215fe35f09', 'Green Curry Shrimp', 'green-curry-shrimp', 'Aromatic Thai green curry with succulent shrimp, bamboo shoots, and Thai basil in creamy coconut milk. Perfectly balanced spice and naturally gluten-free.', '24073280-3225-43a6-b994-dea51052f07d', '44203339-d485-4192-b5a1-8d0ce4766910', 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&h=600&fit=crop', 15, 15, 30, 'Medium', 2, '2026-02-18 02:52:39.468823+00');
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('13c62d45-0ccb-41eb-9858-2ed3579bf048', 'Chicken Pad Thai', 'chicken-pad-thai', 'Classic Thai stir-fried rice noodles with chicken, peanuts, and a perfect balance of sweet and tangy flavors. Made with gluten-free tamari.', 'e93e8dd9-d381-44b7-a010-7188e8f9686b', '44203339-d485-4192-b5a1-8d0ce4766910', 'https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=800&h=600&fit=crop', 20, 10, 30, 'Easy', 2, '2026-02-18 02:52:39.468823+00');
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('48e6342a-2a4e-40e3-9559-a7cd038f8edf', 'Mediterranean Grilled Salmon', 'mediterranean-grilled-salmon', 'Fresh salmon fillet grilled to perfection with lemon, olive oil, and Mediterranean herbs. Served with roasted vegetables.', '58884c15-c5a1-4cda-a278-71e79b41332e', '2cfb5416-abfc-4894-8c7a-c34b3675f10a', 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop', 10, 15, 25, 'Easy', 2, '2026-02-18 02:52:39.468823+00');
@@ -100,12 +57,6 @@ INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id,
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('390126fb-c313-42b4-a686-f896f7183bc1', 'Vietnamese Beef and Rice Noodle Salad', 'vietnamese-beef-noodle-salad', 'Bun Bo style salad with rice vermicelli, fresh herbs, and seasoned ground beef. Fresh, tasty, and filling with lime-fish sauce dressing.', '840c7d6e-3db1-4e06-9ca8-960b41366cb2', '323d4e24-99bf-4c7f-8254-8512b781ee4c', '/images/recipes/vietnamese-beef-noodle-salad.jpg', 15, 20, 35, 'Easy', 4, '2026-02-24 03:10:34.513973+00');
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('30d05dcd-033a-410a-97e9-05dc7d6cdc49', 'Gluten Free Chicken Tenders', 'gluten-free-chicken-tenders', 'Golden and crispy on the outside with tender chicken on the inside. Family favorite comfort food made gluten-free!', 'e93e8dd9-d381-44b7-a010-7188e8f9686b', '5ab4e399-f3b6-4c90-8738-5d17816ae873', '/images/recipes/gluten-free-chicken-tenders.jpg', 15, 20, 35, 'Medium', 4, '2026-02-24 11:11:34.713003+00');
 INSERT INTO public.recipes (id, name, slug, description, protein_id, cuisine_id, image_url, prep_time_min, cook_time_min, total_time_min, difficulty, default_servings, created_at) VALUES ('c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Baked Beef Curry', 'baked-beef-curry', 'An incredible, flavoursome baked beef curry with fragrant spices, coconut milk, tomato and fresh chilli. Enjoy with gluten-free naan or rice.', '840c7d6e-3db1-4e06-9ca8-960b41366cb2', '3f3430d5-d417-4f7f-865d-ddd17a1454a9', '/images/beef-curry.jpeg', 10, 210, 220, 'Medium', 4, '2026-02-25 00:03:12.046611+00');
-
-
---
--- Data for Name: recipe_equipment; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('3e2cba37-aa17-4909-bc51-268b31fd0062', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Large wok or deep skillet', 'Cooking', 1);
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('2185c095-978c-4972-994f-31d447c15ea2', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Rice cooker or medium saucepan with lid', 'Cooking', 2);
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('14f00d39-f726-4df4-b9cc-1580658b819b', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Chef''s knife', 'Prep', 3);
@@ -300,12 +251,6 @@ INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_or
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('8ecded07-1a1d-4730-91b2-950aab42d7d2', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Small prep bowls (3-4)', 'Prep', 6);
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('48c6faaf-0f77-45ab-8d08-e4172c73efdf', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Wooden spoon or spatula', 'Cooking', 7);
 INSERT INTO public.recipe_equipment (id, recipe_id, equipment, category, sort_order) VALUES ('97761ded-aa1c-4583-8ab6-1a315728ec91', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Plate for setting aside browned beef', 'Prep', 8);
-
-
---
--- Data for Name: recipe_ingredients; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('90faf9d6-f8f2-4660-be97-3e53b185ddad', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'large shrimp', 1, 'lb', 'Proteins', false, 'peeled and deveined', 1);
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('33b85ff9-b077-46d6-b7e7-b632832bc9a7', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'coconut milk', 14, 'oz', 'Pantry', true, '', 2);
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('55a218b0-d235-490f-90d6-09046e480b62', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'gluten-free green curry paste', 2, 'tbsp', 'Pantry', true, '', 3);
@@ -638,12 +583,6 @@ INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, 
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('320fbf7a-b896-4fc1-aea0-e6a8f3b8ab8e', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'salt and pepper', NULL, '', 'Pantry', false, 'to taste', 14);
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('7b183074-e26f-4b2e-ab6b-4c3395eb7ead', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'butter', 1, 'tbsp', 'Dairy', false, 'knob-sized', 15);
 INSERT INTO public.recipe_ingredients (id, recipe_id, ingredient, amount, unit, category, is_secondary, notes, sort_order) VALUES ('e824e2dd-75d4-40e3-a2d0-7b81ee748d8c', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'coconut cream', 250, 'ml', 'Dairy', true, '', 16);
-
-
---
--- Data for Name: recipe_instructions; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('f5810fbb-d0ef-4d6d-b55a-31c14a887dab', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'mise_en_place', 1, 'Start jasmine rice in rice cooker or saucepan', false, NULL);
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('8a9af908-7789-4394-b550-1b79432e5a86', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'mise_en_place', 2, 'Peel and devein shrimp if not already done, pat dry with paper towels', false, NULL);
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('7c9d5435-87d5-4cab-af8f-2d1dce948dcd', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'mise_en_place', 3, 'Slice red bell pepper into thin strips', false, NULL);
@@ -1098,12 +1037,6 @@ INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instr
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('cdce050e-0743-4f0d-b6ec-298e1893644a', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'plating', 1, 'Ladle curry into bowls', false, NULL);
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('4f9af83d-9945-4cdb-b79e-1896570ad410', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'plating', 2, 'Garnish with fresh cilantro and extra chilli slices if desired', false, NULL);
 INSERT INTO public.recipe_instructions (id, recipe_id, phase, step_number, instruction, has_quantity, clean_as_you_go) VALUES ('59d3d819-28b7-4e15-8d48-4088380a556c', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'plating', 3, 'Serve with gluten-free naan or rice', false, 'Let casserole dish cool, then soak in warm soapy water.');
-
-
---
--- Data for Name: secondary_ingredients; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('2884ebe3-40f6-4364-a7bf-7d258be4d29e', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Coconut', 'coconut');
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('25172e2b-d319-42f4-8efe-37130458774c', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Basil', 'basil');
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('571dbb82-6755-49ba-8f89-1c112399d392', 'e9d01598-ac89-4b70-9794-35215fe35f09', 'Bamboo Shoots', 'bamboo-shoots');
@@ -1214,11 +1147,4 @@ INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUE
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('7147cae3-8a3c-4a4d-9f1f-93fb22188672', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Ginger', 'ginger');
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('01ca7bd3-0627-4f97-8739-e63af9530503', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Coriander', 'coriander');
 INSERT INTO public.secondary_ingredients (id, recipe_id, ingredient, slug) VALUES ('e04b7dc4-0df3-4c6f-8b65-bd536dc17901', 'c59717d9-8e44-4e2e-92f3-111a19c950cc', 'Garam Masala', 'garam-masala');
-
-
---
--- PostgreSQL database dump complete
---
-
-\unrestrict 3jnXnm2ndpDmEeQqhuUNVjyLzEVAv0Qq0HiDeY4ZDy9H2FA6UQDzeGZRqi4Pl77
 
