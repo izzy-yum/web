@@ -27,15 +27,24 @@ if [ -z "$SUPABASE_DB_URL" ]; then
   if [ -z "$DB_URL" ]; then
     # Default to local database
     DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"
-    echo -e "${GREEN}Using local database${NC}"
+    DB_NAME="LOCAL DEVELOPMENT"
+    DB_HOST="127.0.0.1:54322"
   else
-    echo -e "${GREEN}Using provided database${NC}"
+    DB_NAME="CLOUD PRODUCTION"
+    # Extract host from connection string
+    DB_HOST=$(echo "$DB_URL" | sed -n 's/.*@\([^:\/]*\).*/\1/p')
   fi
 else
   DB_URL="$SUPABASE_DB_URL"
-  echo -e "${GREEN}Using SUPABASE_DB_URL environment variable${NC}"
+  DB_NAME="CLOUD PRODUCTION"
+  DB_HOST=$(echo "$DB_URL" | sed -n 's/.*@\([^:\/]*\).*/\1/p')
 fi
 
+echo ""
+echo -e "${BLUE}═══════════════════════════════════════════${NC}"
+echo -e "${GREEN}Database: ${NC}${YELLOW}${DB_NAME}${NC}"
+echo -e "${GREEN}Host:     ${NC}${DB_HOST}"
+echo -e "${BLUE}═══════════════════════════════════════════${NC}"
 echo ""
 echo -e "${BLUE}Fetching users from database...${NC}"
 echo ""

@@ -66,7 +66,10 @@ postgresql://postgres.oogpnrrsmpklafdrvvkg:your_password@aws-0-us-west-1.pooler.
 ║   Izzy Yum - User Management Script       ║
 ╔════════════════════════════════════════════╗
 
-Using local database
+═══════════════════════════════════════════
+Database: LOCAL DEVELOPMENT
+Host:     127.0.0.1:54322
+═══════════════════════════════════════════
 
 Fetching users from database...
 
@@ -114,6 +117,28 @@ Done!
 - ✅ Can cancel at any time (press 'q' or incorrect confirmation)
 - ✅ Shows detailed success/error messages
 - ✅ Color-coded output for clarity
+
+### How to Know Which Database You're On
+
+The script shows the database at the top:
+
+**Local Development Database:**
+```
+═══════════════════════════════════════════
+Database: LOCAL DEVELOPMENT
+Host:     127.0.0.1:54322
+═══════════════════════════════════════════
+```
+
+**Cloud Production Database:**
+```
+═══════════════════════════════════════════
+Database: CLOUD PRODUCTION
+Host:     aws-0-us-west-1.pooler.supabase.com
+═══════════════════════════════════════════
+```
+
+**Always check this header before deleting users!**
 
 ### Notes
 
