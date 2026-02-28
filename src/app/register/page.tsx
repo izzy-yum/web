@@ -5,6 +5,30 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 
+// Helper function to format phone number to E.164 format
+function formatPhoneE164(phone: string): string {
+  // Remove all non-digit characters
+  const digits = phone.replace(/\D/g, '')
+
+  // If it starts with 1 and is 11 digits, it's already formatted
+  if (digits.length === 11 && digits.startsWith('1')) {
+    return `+${digits}`
+  }
+
+  // If it's 10 digits, assume US and add +1
+  if (digits.length === 10) {
+    return `+1${digits}`
+  }
+
+  // If it already starts with +, return as is
+  if (phone.startsWith('+')) {
+    return phone.replace(/\D/g, '').replace(/^(\d)/, '+$1')
+  }
+
+  // Default: assume US number
+  return `+1${digits}`
+}
+
 export default function RegisterPage() {
   const router = useRouter()
 
@@ -19,6 +43,8 @@ export default function RegisterPage() {
   const [emailCode, setEmailCode] = useState('')
   const [phoneCode, setPhoneCode] = useState('')
   const [verifying, setVerifying] = useState(false)
+  const [emailVerified, setEmailVerified] = useState(false)
+  const [phoneCodeSent, setPhoneCodeSent] = useState(false)
 
   // Validation states
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -31,12 +57,17 @@ export default function RegisterPage() {
     setError(null)
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      // Format phone to E.164
+      const formattedPhone = formatPhoneE164(phone)
+
+      // Send email OTP (creates user account)
+      const { data, error } = await supabase.auth.signInWithOtp({
         email,
-        password,
         options: {
+          shouldCreateUser: true,
           data: {
-            phone,
+            phone: formattedPhone,
+            password, // Store for later
           },
         },
       })
@@ -58,26 +89,62 @@ export default function RegisterPage() {
     setError(null)
 
     try {
-      // For now, accept "1234" for both codes
-      if (emailCode !== '1234' || phoneCode !== '1234') {
-        setError('Invalid verification codes. Enter 1234 for both codes.')
+      // Step 1: Verify email code (if not already verified)
+      if (!emailVerified) {
+        const { data: emailData, error: emailError } = await supabase.auth.verifyOtp({
+          email,
+          token: emailCode,
+          type: 'email',
+        })
+
+        if (emailError) {
+          setError(`Invalid email verification code: ${emailError.message}`)
+          setVerifying(false)
+          return
+        }
+
+        // Email verified! Mark it and send phone OTP
+        setEmailVerified(true)
+
+        // Format phone to E.164
+        const formattedPhone = formatPhoneE164(phone)
+
+        // Send phone OTP via SMS
+        const { data: phoneData, error: phoneError } = await supabase.auth.signInWithOtp({
+          phone: formattedPhone,
+          options: {
+            shouldCreateUser: false, // User already created via email
+          },
+        })
+
+        if (phoneError) {
+          setError(`Failed to send phone verification: ${phoneError.message}`)
+          setVerifying(false)
+          return
+        }
+
+        setPhoneCodeSent(true)
+        setError(null)
         setVerifying(false)
         return
       }
 
-      // Sign in the user (email confirmations are disabled in local config)
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Step 2: Verify phone code
+      const formattedPhone = formatPhoneE164(phone)
+      const { data: phoneVerifyData, error: phoneVerifyError } = await supabase.auth.verifyOtp({
+        phone: formattedPhone,
+        token: phoneCode,
+        type: 'sms',
       })
 
-      if (error) {
-        setError(`Sign-in error: ${error.message}`)
+      if (phoneVerifyError) {
+        setError(`Invalid phone verification code: ${phoneVerifyError.message}`)
         setVerifying(false)
         return
       }
 
-      // Successfully signed in - redirect to home page
+      // Both verified! User is now authenticated
+      // Redirect to home page
       router.push('/')
     } catch (err: any) {
       setError(err.message || 'Verification failed')
@@ -183,21 +250,22 @@ export default function RegisterPage() {
 
               <div>
                 <label htmlFor="emailCode" className="block text-sm font-medium text-white mb-1">
-                  Email verification code
+                  Email verification code {emailVerified && <span className="text-green-300">✓ Verified</span>}
                 </label>
                 <input
                   id="emailCode"
                   name="emailCode"
                   type="text"
                   required
-                  maxLength={4}
+                  maxLength={6}
                   value={emailCode}
                   onChange={(e) => setEmailCode(e.target.value.replace(/\D/g, ''))}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono"
-                  placeholder="1234"
+                  disabled={emailVerified}
+                  className={`appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono text-lg tracking-wider ${emailVerified ? 'bg-green-50 border-green-500' : ''}`}
+                  placeholder="123456"
                 />
                 <p className="mt-1 text-xs text-neutral-200">
-                  Enter the code sent to your email
+                  {emailVerified ? 'Email verified!' : `Check your email (${email}) for the 6-digit code`}
                 </p>
               </div>
 
@@ -210,25 +278,36 @@ export default function RegisterPage() {
                   name="phoneCode"
                   type="text"
                   required
-                  maxLength={4}
+                  maxLength={6}
                   value={phoneCode}
                   onChange={(e) => setPhoneCode(e.target.value.replace(/\D/g, ''))}
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono"
-                  placeholder="1234"
+                  disabled={!phoneCodeSent}
+                  className={`appearance-none rounded-lg relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-400 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent sm:text-sm text-center font-mono text-lg tracking-wider ${!phoneCodeSent ? 'bg-neutral-100' : ''}`}
+                  placeholder="123456"
                 />
                 <p className="mt-1 text-xs text-neutral-200">
-                  Enter the code sent to your phone
+                  {!phoneCodeSent
+                    ? 'Verify email first, then we\'ll send phone code'
+                    : `Check your phone (${phone}) for the 6-digit code`}
                 </p>
               </div>
 
               <div className="pt-4">
                 <button
                   type="submit"
-                  disabled={verifying || emailCode.length !== 4 || phoneCode.length !== 4}
+                  disabled={
+                    verifying ||
+                    (!emailVerified && emailCode.length !== 6) ||
+                    (emailVerified && phoneCode.length !== 6)
+                  }
                   style={{ backgroundColor: '#1e2f2c' }}
                   className="w-full flex justify-center py-3 px-4 text-base font-semibold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:opacity-90"
                 >
-                  {verifying ? 'Verifying...' : 'Complete Registration'}
+                  {verifying
+                    ? 'Verifying...'
+                    : emailVerified
+                      ? 'Verify Phone & Complete'
+                      : 'Verify Email'}
                 </button>
               </div>
             </div>
