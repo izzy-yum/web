@@ -4,9 +4,45 @@ Utility scripts for managing the Izzy Yum Supabase database.
 
 ---
 
-## delete-user.sh
+## delete-user.js (Recommended - Uses Supabase API)
 
-Interactive script to delete users from the database.
+Interactive Node.js script to delete users using Supabase Admin API.
+
+### Quick Start
+
+**For Cloud Database (Production):**
+
+```bash
+# Set credentials (from supabase-info.md)
+export NEXT_PUBLIC_SUPABASE_URL='https://oogpnrrsmpklafdrvvkg.supabase.co'
+export SUPABASE_SERVICE_ROLE_KEY='[Your Private API Key from supabase-info.md]'
+
+# Run the script
+node scripts/delete-user.js
+```
+
+**For Local Database:**
+
+```bash
+# Use local Supabase
+export NEXT_PUBLIC_SUPABASE_URL='http://127.0.0.1:54321'
+export SUPABASE_SERVICE_ROLE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU'
+
+# Run the script
+node scripts/delete-user.js
+```
+
+### Keys Explained
+
+From `supabase-info.md`:
+- **Publishable API Key** = `NEXT_PUBLIC_SUPABASE_ANON_KEY` (for client apps)
+- **Private API Key** = `SUPABASE_SERVICE_ROLE_KEY` (for admin operations like deleting users)
+
+---
+
+## delete-user.sh (Alternate - Requires Direct SQL Access)
+
+Interactive script to delete users from the database using psql.
 
 ### Usage
 
