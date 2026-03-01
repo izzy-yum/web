@@ -2,27 +2,27 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-primary-50 px-4 pt-20 pb-12">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <h1 className="text-4xl font-heading font-bold text-neutral-900 mb-6">
+        <div className="rounded-2xl shadow-lg p-8 md:p-12" style={{ backgroundColor: '#8d2831' }}>
+          <h1 className="text-4xl font-heading font-bold text-white mb-6">
             Privacy Policy
           </h1>
 
-          <p className="text-sm text-neutral-600 mb-8">
+          <p className="text-sm text-neutral-200 mb-8">
             Last updated: March 1, 2026
           </p>
 
-          <div className="space-y-6 text-neutral-700">
+          <div className="space-y-6 text-neutral-100">
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Our Commitment
               </h2>
-              <p className="text-lg leading-relaxed">
+              <p className="text-lg leading-relaxed text-neutral-50">
                 We respect your privacy. <strong>We do not sell, rent, or share your personal data with third parties.</strong>
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 What Information We Collect
               </h2>
               <p className="leading-relaxed mb-3">
@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 How We Use Your Information
               </h2>
               <ul className="list-disc list-inside space-y-2 ml-4">
@@ -54,7 +54,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 What We DON'T Do
               </h2>
               <ul className="list-disc list-inside space-y-2 ml-4">
@@ -66,7 +66,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Third-Party Services
               </h2>
               <p className="leading-relaxed mb-3">
@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Data Security
               </h2>
               <p className="leading-relaxed">
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Your Rights
               </h2>
               <p className="leading-relaxed mb-3">
@@ -118,7 +118,7 @@ export default function PrivacyPolicyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-heading font-bold text-neutral-900 mb-3">
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Contact Us
               </h2>
               <p className="leading-relaxed">
@@ -129,18 +129,18 @@ export default function PrivacyPolicyPage() {
               </p>
             </section>
 
-            <section className="pt-6 mt-6 border-t border-neutral-200">
-              <p className="text-sm text-neutral-600">
+            <section className="pt-6 mt-6 border-t border-neutral-400">
+              <p className="text-sm text-neutral-200">
                 This privacy policy may be updated from time to time. We will notify you of any changes by
                 posting the new policy on this page and updating the "Last updated" date.
               </p>
             </section>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-neutral-200">
+          <div className="mt-8 pt-6 border-t border-neutral-400">
             <a
               href="/"
-              className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium"
+              className="inline-flex items-center text-primary-100 hover:text-white font-medium transition-colors"
             >
               ← Back to Home
             </a>
