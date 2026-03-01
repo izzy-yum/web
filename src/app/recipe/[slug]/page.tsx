@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import RecipeDetail from '@/components/RecipeDetail'
+import { notFound } from 'next/navigation'
 
 export default async function RecipePage({
   params,
@@ -23,26 +24,8 @@ export default async function RecipePage({
     .single()
 
   if (error || !recipe) {
-    console.error('Error fetching recipe:', error)
-    return (
-      <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-3xl font-heading font-bold text-neutral-900 mb-4">
-            Recipe Not Found
-          </h1>
-          <p className="text-neutral-600 mb-6">
-            We couldn&apos;t find the recipe you&apos;re looking for.
-          </p>
-          <a
-            href="/"
-            className="inline-block px-6 py-3 text-white rounded-full font-medium transition-colors"
-            style={{ backgroundColor: '#3a5a52' }}
-          >
-            Back to Home
-          </a>
-        </div>
-      </div>
-    )
+    console.error('Recipe not found:', slug, error?.message)
+    notFound()
   }
 
   return <RecipeDetail initialRecipe={recipe} />

@@ -125,8 +125,18 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
         )}
 
         {error && (
-          <div className="mb-6 p-4 bg-red-100 border border-red-300 rounded-xl">
-            <p className="text-red-800">{error}</p>
+          <div className="mb-6 rounded-2xl shadow-md p-6" style={{ backgroundColor: '#8d2831' }}>
+            <h3 className="text-lg font-heading font-bold text-white mb-2">
+              Calculation Error
+            </h3>
+            <p className="text-neutral-100 mb-4">{error}</p>
+            <button
+              onClick={() => selectedServings && handleServingSelect(selectedServings)}
+              style={{ backgroundColor: '#1e2f2c' }}
+              className="px-4 py-2 text-sm font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
+            >
+              Retry
+            </button>
           </div>
         )}
 

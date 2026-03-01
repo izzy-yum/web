@@ -29,16 +29,56 @@ export default async function CuisinePage({
   if (error) {
     console.error('Error fetching cuisines:', error)
     return (
-      <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-        <p className="text-red-600">Error loading cuisines. Please try again.</p>
+      <div className="min-h-screen bg-primary-50 flex items-center justify-center px-4 pt-20">
+        <div className="max-w-md w-full text-center">
+          <div className="rounded-2xl shadow-lg p-8" style={{ backgroundColor: '#8d2831' }}>
+            <h2 className="text-2xl font-heading font-bold text-white mb-4">
+              Couldn't Load Cuisines
+            </h2>
+            <p className="text-neutral-100 mb-6">
+              We had trouble loading the cuisine options. This might be a temporary network issue.
+            </p>
+            <div className="space-y-3">
+              <button
+                onClick={() => window.location.reload()}
+                style={{ backgroundColor: '#1e2f2c' }}
+                className="w-full py-3 px-4 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
+              >
+                Try Again
+              </button>
+              <a
+                href="/"
+                className="block w-full py-3 px-4 text-base font-semibold rounded-lg text-white bg-neutral-700 hover:bg-neutral-600 transition-colors"
+              >
+                Back to Home
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!cuisines || cuisines.length === 0) {
     return (
-      <div className="min-h-screen bg-primary-50 flex items-center justify-center">
-        <p className="text-neutral-600">No cuisines available yet.</p>
+      <div className="min-h-screen bg-primary-50 flex items-center justify-center px-4 pt-20">
+        <div className="max-w-md w-full text-center">
+          <div className="rounded-2xl shadow-lg p-8" style={{ backgroundColor: '#8d2831' }}>
+            <h2 className="text-2xl font-heading font-bold text-white mb-4">
+              No Cuisines Available
+            </h2>
+            <p className="text-neutral-100 mb-6">
+              We're still setting up the cuisine options. Please check back soon!
+            </p>
+            <a
+              href="/"
+              style={{ backgroundColor: '#1e2f2c' }}
+              className="inline-block w-full py-3 px-4 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
+            >
+              Back to Home
+            </a>
+          </div>
+        </div>
       </div>
     )
   }
