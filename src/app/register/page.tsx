@@ -35,6 +35,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
+  const [smsConsent, setSmsConsent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -193,14 +194,34 @@ export default function RegisterPage() {
                 placeholder="+1 (555) 123-4567"
               />
               <p className="mt-1 text-xs text-neutral-200">
-                Required for iOS app push notifications
+                Required for account verification and iOS app push notifications
               </p>
+            </div>
+
+            <div className="pt-2">
+              <label className="flex items-start space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  required
+                  checked={smsConsent}
+                  onChange={(e) => setSmsConsent(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-2 focus:ring-primary-500 cursor-pointer"
+                />
+                <span className="text-xs text-white leading-relaxed">
+                  I consent to receive SMS text messages containing verification codes to confirm my phone number.
+                  Standard message and data rates may apply. You can opt-out at any time by contacting{' '}
+                  <a href="mailto:support@izzy-yum.com" className="underline hover:text-neutral-200">
+                    support@izzy-yum.com
+                  </a>
+                  .
+                </span>
+              </label>
             </div>
 
             <div className="pt-4">
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !smsConsent}
                 style={{ backgroundColor: '#1e2f2c' }}
                 className="w-full flex justify-center py-3 px-4 text-base font-semibold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg hover:opacity-90"
               >

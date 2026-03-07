@@ -35,6 +35,27 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-2xl font-heading font-bold text-white mb-3">
+                SMS Text Messages
+              </h2>
+              <p className="leading-relaxed mb-3">
+                When you create an account with Izzy Yum, you consent to receive SMS text messages containing
+                verification codes to confirm your phone number. By providing your phone number and checking
+                the SMS consent box during registration, you agree to:
+              </p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li>Receive SMS verification codes from Izzy Yum via Twilio</li>
+                <li>Potential charges from your mobile carrier (standard message and data rates may apply)</li>
+                <li>Our use of your phone number solely for account verification and optional shopping list notifications</li>
+              </ul>
+              <p className="leading-relaxed mt-3">
+                You may opt-out of SMS communications at any time by contacting support@izzy-yum.com, though
+                this may limit certain account features. We do not share your phone number with third parties
+                for marketing purposes.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 Recipe Information
               </h2>
               <ul className="list-disc list-inside space-y-2 ml-4">

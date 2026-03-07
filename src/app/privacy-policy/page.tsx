@@ -55,6 +55,25 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-2xl font-heading font-bold text-white mb-3">
+                SMS Communications
+              </h2>
+              <p className="leading-relaxed mb-3">
+                When you create an account, you will receive SMS text messages containing verification codes
+                to confirm your phone number. By providing your phone number during registration and checking
+                the consent box, you agree to receive these verification messages.
+              </p>
+              <p className="leading-relaxed mb-3">
+                Standard message and data rates may apply. We use Twilio to deliver SMS messages, and your
+                phone number is only used for sending verification codes and optional shopping list notifications.
+              </p>
+              <p className="leading-relaxed">
+                You can opt-out of SMS communications at any time by contacting us at support@izzy-yum.com,
+                though this may limit certain account functionality.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-heading font-bold text-white mb-3">
                 What We DON'T Do
               </h2>
               <ul className="list-disc list-inside space-y-2 ml-4">
