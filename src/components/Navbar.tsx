@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { User } from '@supabase/supabase-js'
 import PlateIndicator from './PlateIndicator'
+import { useMeal } from '@/contexts/MealContext'
 
 export default function Navbar() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
+  const { protein, grain, vegetables } = useMeal()
 
   useEffect(() => {
     // Get initial session
@@ -42,10 +44,13 @@ export default function Navbar() {
           {/* Left side: Plate Indicator + Logo */}
           <div className="flex items-center gap-3">
             <PlateIndicator
+              protein={protein}
+              grain={grain}
+              vegetables={vegetables}
               size="medium"
               onClick={() => {
                 // TODO: Open meal summary modal
-                console.log('Plate clicked - show meal summary')
+                console.log('Plate clicked', { protein, grain, vegetables })
               }}
             />
             <Link href="/" className="text-xl font-heading font-bold text-white hover:text-primary-200 transition-colors">

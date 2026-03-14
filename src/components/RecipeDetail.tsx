@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RecipeHeader from './RecipeHeader'
 import ServingSizeSelector from './ServingSizeSelector'
 import EquipmentList from './EquipmentList'
@@ -8,6 +8,7 @@ import IngredientList from './IngredientList'
 import InstructionSteps from './InstructionSteps'
 import Breadcrumb from './Breadcrumb'
 import ShoppingListPanel from './ShoppingListPanel'
+import { useMeal } from '@/contexts/MealContext'
 
 interface Recipe {
   id: string
@@ -37,6 +38,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false)
+  const { setProtein } = useMeal()
 
   const handleServingSelect = async (servings: number) => {
     setSelectedServings(servings)
@@ -61,6 +63,17 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
 
       const data = await response.json()
       setCalculatedRecipe(data)
+
+      // Update meal context with selected protein
+      setProtein(
+        {
+          id: initialRecipe.id,
+          name: initialRecipe.name,
+          slug: initialRecipe.slug,
+          image_url: initialRecipe.image_url,
+        },
+        servings
+      )
     } catch (err) {
       console.error('Error calculating recipe:', err)
       setError('Failed to calculate serving sizes. Please try again.')
