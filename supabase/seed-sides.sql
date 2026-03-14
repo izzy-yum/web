@@ -256,7 +256,7 @@ WHERE sd.slug = 'quinoa';
 
 -- Jasmine Rice Ingredients
 INSERT INTO public.side_dish_ingredients (side_dish_id, ingredient, amount, unit, category, notes, sort_order)
-SELECT sd.id, ingredient, amount, unit, category, notes, sort_order)
+SELECT sd.id, ingredient, amount, unit, category, notes, sort_order
 FROM side_dishes sd,
 (VALUES
   ('jasmine rice', 2, 'cups', 'Pantry', '', 1),
