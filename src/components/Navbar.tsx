@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { User } from '@supabase/supabase-js'
+import PlateIndicator from './PlateIndicator'
 
 export default function Navbar() {
   const router = useRouter()
@@ -38,10 +39,19 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-12">
-          {/* Logo/Brand */}
-          <Link href="/" className="text-xl font-heading font-bold text-white hover:text-primary-200 transition-colors">
-            Izzy Yum
-          </Link>
+          {/* Left side: Plate Indicator + Logo */}
+          <div className="flex items-center gap-3">
+            <PlateIndicator
+              size="medium"
+              onClick={() => {
+                // TODO: Open meal summary modal
+                console.log('Plate clicked - show meal summary')
+              }}
+            />
+            <Link href="/" className="text-xl font-heading font-bold text-white hover:text-primary-200 transition-colors">
+              Izzy Yum
+            </Link>
+          </div>
 
           {/* Auth Buttons */}
           <div className="flex items-center gap-3">
