@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 // Types
 interface Recipe {
@@ -39,12 +39,32 @@ const MealContext = createContext<MealContextType | undefined>(undefined)
 
 // Provider component
 export function MealProvider({ children }: { children: ReactNode }) {
-  const [mealState, setMealState] = useState<MealState>({
-    protein: null,
-    grain: null,
-    vegetables: [],
-    servings: 4,
+  const [mealState, setMealState] = useState<MealState>(() => {
+    // Load from localStorage on init
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('izzy-yum-meal')
+      if (saved) {
+        try {
+          return JSON.parse(saved)
+        } catch (e) {
+          console.error('Error loading saved meal:', e)
+        }
+      }
+    }
+    return {
+      protein: null,
+      grain: null,
+      vegetables: [],
+      servings: 4,
+    }
   })
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('izzy-yum-meal', JSON.stringify(mealState))
+    }
+  }, [mealState])
 
   const setProtein = (recipe: Recipe, servings: number) => {
     setMealState((prev) => ({

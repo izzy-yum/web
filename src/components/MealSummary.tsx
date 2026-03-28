@@ -24,14 +24,13 @@ export default function MealSummary() {
   const [vegetableData, setVegetableData] = useState<SideDishData[]>([])
 
   useEffect(() => {
-    // Redirect if no protein selected
-    if (!protein) {
-      router.push('/')
-      return
-    }
-
     // Fetch complete data for all components
     async function fetchMealData() {
+      // If no protein, don't fetch but also don't redirect yet
+      if (!protein) {
+        setLoading(false)
+        return
+      }
       setLoading(true)
 
       try {
@@ -94,7 +93,27 @@ export default function MealSummary() {
   }
 
   if (!protein) {
-    return null // Will redirect
+    return (
+      <div className="min-h-screen bg-primary-50 flex items-center justify-center px-4 pt-20">
+        <div className="max-w-md w-full text-center">
+          <div className="rounded-2xl shadow-lg p-8" style={{ backgroundColor: '#8d2831' }}>
+            <h2 className="text-2xl font-heading font-bold text-white mb-4">
+              No Meal Selected
+            </h2>
+            <p className="text-neutral-100 mb-6">
+              Start by selecting a protein recipe, then build your complete plate!
+            </p>
+            <a
+              href="/"
+              style={{ backgroundColor: '#1e2f2c' }}
+              className="inline-block py-3 px-6 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
+            >
+              Browse Recipes
+            </a>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   // Calculate totals
