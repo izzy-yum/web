@@ -121,6 +121,35 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
           isLoading={isLoading}
         />
 
+        {/* Complete Your Plate Suggestion */}
+        {selectedServings && calculatedRecipe && (
+          <div className="mb-6">
+            <div className="rounded-xl p-6 text-center" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #4ade80 100%)' }}>
+              <h3 className="text-xl font-heading font-bold text-white mb-2">
+                🍽️ Complete Your Balanced Plate?
+              </h3>
+              <p className="text-white/90 mb-4 text-sm">
+                Add a grain and vegetables for a nutritionally complete meal (optional)
+              </p>
+              <div className="flex gap-3 justify-center">
+                <a
+                  href="/meal/grain"
+                  style={{ backgroundColor: '#1e2f2c' }}
+                  className="px-6 py-2 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
+                >
+                  Yes, Complete Plate →
+                </a>
+                <button
+                  onClick={() => {/* Just collapse this banner */}}
+                  className="px-6 py-2 text-base font-medium bg-white/30 text-white rounded-lg hover:bg-white/40 transition-colors"
+                >
+                  No Thanks
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Shopping List Button */}
         {selectedServings && calculatedRecipe && (
           <div className="mb-6 flex justify-center">

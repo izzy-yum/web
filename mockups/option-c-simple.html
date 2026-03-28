@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Summary - Option C (Simple & Clean)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f7f3ea;
+      padding: 80px 20px 40px;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #1e2f2c;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+    }
+    .plate-icon {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .brand { color: white; font-size: 20px; font-weight: bold; }
+    .container { max-width: 800px; margin: 0 auto; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .note-banner {
+      background: #8d2831;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 600;
+    }
+
+    /* Main Panel */
+    .meal-panel {
+      background: #8d2831;
+      border-radius: 20px;
+      padding: 36px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* Meal Components List */
+    .components-list {
+      margin-bottom: 32px;
+    }
+
+    .component-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      color: white;
+    }
+
+    .component-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .component-icon {
+      font-size: 2.5rem;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .component-info {
+      flex: 1;
+    }
+
+    .component-info-name {
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .component-info-meta {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .component-edit {
+      color: #fde047;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: 2px solid #fde047;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .component-edit:hover {
+      background: #fde047;
+      color: #1e2f2c;
+    }
+
+    /* Divider */
+    .divider {
+      height: 2px;
+      background: rgba(255,255,255,0.3);
+      margin: 28px 0;
+    }
+
+    /* Quick Stats Grid */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      color: white;
+      margin-bottom: 28px;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.15);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    /* Tip Box */
+    .tip-box {
+      background: rgba(253, 224, 71, 0.2);
+      border: 2px solid #fde047;
+      padding: 16px;
+      border-radius: 12px;
+      color: #fef3c7;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .tip-box strong {
+      color: #fde047;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+    }
+
+    .btn {
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      width: 100%;
+    }
+
+    .btn:hover { opacity: 0.9; }
+
+    .btn-primary {
+      background: #1e2f2c;
+      color: white;
+      font-size: 1.2rem;
+      padding: 18px;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+
+    .secondary-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    .btn-small {
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      background: white;
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="plate-icon">✓✓✓</div>
+    <div class="brand">Izzy Yum</div>
+    <div style="margin-left: auto; color: white; font-size: 14px;">Complete Plate! 🎉</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Your Balanced Thai Meal</h1>
+
+    <div class="note-banner">
+      <strong>Option C: Simple & Clean</strong> - Single panel with everything you need
+    </div>
+
+    <!-- Single Burgundy Panel -->
+    <div class="meal-panel">
+      <div class="panel-title">🍽️ Complete Balanced Plate</div>
+
+      <!-- Components List -->
+      <div class="components-list">
+        <div class="component-row">
+          <div class="component-icon">🍖</div>
+          <div class="component-info">
+            <div class="component-info-name">Green Curry Shrimp</div>
+            <div class="component-info-meta">Protein • 30 min • 4 servings</div>
+          </div>
+          <a href="#" class="component-edit">View Recipe</a>
+        </div>
+
+        <div class="component-row">
+          <div class="component-icon">🌾</div>
+          <div class="component-info">
+            <div class="component-info-name">Jasmine Rice</div>
+            <div class="component-info-meta">Grain • 15 min • 4 servings</div>
+          </div>
+          <a href="#" class="component-edit">Change</a>
+        </div>
+
+        <div class="component-row">
+          <div class="component-icon">🥦</div>
+          <div class="component-info">
+            <div class="component-info-name">Thai Cucumber Salad</div>
+            <div class="component-info-meta">Vegetable • 10 min • 4 servings</div>
+          </div>
+          <a href="#" class="component-edit">Change</a>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Quick Stats -->
+      <div class="quick-stats">
+        <div class="stat-box">
+          <div class="stat-label">Total Time</div>
+          <div class="stat-value">55m</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Ingredients</div>
+          <div class="stat-value">18</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Servings</div>
+          <div class="stat-value">4</div>
+        </div>
+      </div>
+
+      <!-- Cooking Tip -->
+      <div class="tip-box">
+        <strong>💡 Cooking Tip:</strong> Make the cucumber salad first (10 min) and refrigerate. Then start rice (15 min), and finally the curry (30 min). Everything will be ready at the same time!
+      </div>
+
+      <!-- Main Actions -->
+      <div class="action-buttons">
+        <button class="btn btn-primary">📱 Send Shopping List to iPhone</button>
+        <button class="btn btn-secondary">📋 View Full Shopping List</button>
+        <button class="btn btn-secondary">⏰ View Cooking Timeline</button>
+      </div>
+    </div>
+
+    <!-- Secondary Actions -->
+    <div class="secondary-actions">
+      <button class="btn btn-small">💾 Save This Meal</button>
+      <button class="btn btn-small">🔗 Share</button>
+      <button class="btn btn-small">← Back to Edit</button>
+    </div>
+  </div>
+</body>
+</html>

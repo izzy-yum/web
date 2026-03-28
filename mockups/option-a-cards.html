@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meal Summary - Option A (Card Layout)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f7f3ea;
+      padding: 80px 20px 40px;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #1e2f2c;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+    }
+    .plate-icon {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .brand { color: white; font-size: 20px; font-weight: bold; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+    }
+
+    /* Meal Components Grid */
+    .meal-components {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .component-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .component-header {
+      padding: 16px 20px;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .protein-header { background: #ef4444; }
+    .grain-header { background: #fbbf24; }
+    .vegetable-header { background: #4ade80; }
+
+    .component-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+
+    .component-content {
+      padding: 20px;
+    }
+
+    .component-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+
+    .component-meta {
+      display: flex;
+      gap: 16px;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    .component-description {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .edit-btn {
+      color: #3b82f6;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Tabs Section */
+    .tabs-container {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 32px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 16px;
+      text-align: center;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: #1a1a1a;
+      border-bottom-color: #1e2f2c;
+      background: white;
+    }
+
+    .tab:hover {
+      background: #f3f4f6;
+    }
+
+    .tab-content {
+      padding: 24px;
+    }
+
+    .shopping-list {
+      max-width: 600px;
+    }
+
+    .category-section {
+      margin-bottom: 24px;
+    }
+
+    .category-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .ingredient-item {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .ingredient-item:last-child {
+      border-bottom: none;
+    }
+
+    .ingredient-amount {
+      font-weight: 600;
+      color: #1a1a1a;
+      min-width: 80px;
+    }
+
+    .ingredient-name {
+      flex: 1;
+      color: #374151;
+    }
+
+    .ingredient-source {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover { opacity: 0.9; }
+
+    .btn-primary {
+      background: #1e2f2c;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .note {
+      background: #8d2831;
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="plate-icon">✓✓✓</div>
+    <div class="brand">Izzy Yum</div>
+    <div style="margin-left: auto; color: white; font-size: 14px;">Complete Plate! 🎉</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Your Balanced Thai Meal</h1>
+    <p class="subtitle">4 servings • Ready in 55 minutes • Complete balanced plate</p>
+
+    <div class="note">
+      <strong>Option A: Card Layout</strong> - Visual cards emphasize each dish equally
+    </div>
+
+    <!-- Meal Components (3 Cards) -->
+    <div class="meal-components">
+      <!-- Protein Card -->
+      <div class="component-card">
+        <div class="component-header protein-header">
+          <span>🍖 Protein (1/4 plate)</span>
+          <span>✓</span>
+        </div>
+        <div class="component-image">🍤</div>
+        <div class="component-content">
+          <div class="component-title">Green Curry Shrimp</div>
+          <div class="component-meta">
+            <span>⏱️ 30 min</span>
+            <span>👤 4 servings</span>
+            <span>🟡 Medium</span>
+          </div>
+          <p class="component-description">
+            Aromatic Thai green curry with succulent shrimp, bamboo shoots, and Thai basil in creamy coconut milk.
+          </p>
+          <a href="#" class="edit-btn">View full recipe →</a>
+        </div>
+      </div>
+
+      <!-- Grain Card -->
+      <div class="component-card">
+        <div class="component-header grain-header">
+          <span>🌾 Grain (1/4 plate)</span>
+          <span>✓</span>
+        </div>
+        <div class="component-image">🍚</div>
+        <div class="component-content">
+          <div class="component-title">Jasmine Rice</div>
+          <div class="component-meta">
+            <span>⏱️ 15 min</span>
+            <span>👤 4 servings</span>
+            <span>🟢 Easy</span>
+          </div>
+          <p class="component-description">
+            Fragrant Thai jasmine rice with a subtle floral aroma. The traditional choice for Thai dishes.
+          </p>
+          <a href="#" class="edit-btn">Change grain →</a>
+        </div>
+      </div>
+
+      <!-- Vegetable Card -->
+      <div class="component-card">
+        <div class="component-header vegetable-header">
+          <span>🥦 Vegetables (1/2 plate)</span>
+          <span>✓</span>
+        </div>
+        <div class="component-image">🥒</div>
+        <div class="component-content">
+          <div class="component-title">Thai Cucumber Salad</div>
+          <div class="component-meta">
+            <span>⏱️ 10 min</span>
+            <span>👤 4 servings</span>
+            <span>🟢 Easy</span>
+          </div>
+          <p class="component-description">
+            Crisp cucumbers with rice vinegar, sesame oil, and chili flakes. Cool and refreshing contrast.
+          </p>
+          <a href="#" class="edit-btn">Change vegetables →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs for Shopping List, Timeline, Instructions -->
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab active">🛒 Shopping List</button>
+        <button class="tab">⏰ Cooking Timeline</button>
+        <button class="tab">📖 All Instructions</button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Shopping List Content -->
+        <div class="shopping-list">
+          <h2 style="margin-bottom: 24px; color: #1a1a1a; font-size: 1.3rem;">Complete Meal Shopping List</h2>
+
+          <div class="category-section">
+            <div class="category-title">Proteins</div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">2 lbs</div>
+              <div class="ingredient-name">large shrimp, peeled and deveined</div>
+              <div class="ingredient-source">Curry</div>
+            </div>
+          </div>
+
+          <div class="category-section">
+            <div class="category-title">Produce</div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">2</div>
+              <div class="ingredient-name">red bell peppers</div>
+              <div class="ingredient-source">Curry</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">2 large</div>
+              <div class="ingredient-name">cucumbers, thinly sliced</div>
+              <div class="ingredient-source">Salad</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">1 bunch</div>
+              <div class="ingredient-name">fresh Thai basil</div>
+              <div class="ingredient-source">Curry</div>
+            </div>
+          </div>
+
+          <div class="category-section">
+            <div class="category-title">Pantry</div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">2 cups</div>
+              <div class="ingredient-name">jasmine rice</div>
+              <div class="ingredient-source">Rice</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">2 cans</div>
+              <div class="ingredient-name">coconut milk (14 oz)</div>
+              <div class="ingredient-source">Curry</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">4 tbsp</div>
+              <div class="ingredient-name">gluten-free green curry paste</div>
+              <div class="ingredient-source">Curry</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">3 tbsp</div>
+              <div class="ingredient-name">rice vinegar</div>
+              <div class="ingredient-source">Salad</div>
+            </div>
+            <div class="ingredient-item">
+              <div class="ingredient-amount">1 tbsp</div>
+              <div class="ingredient-name">sesame oil</div>
+              <div class="ingredient-source">Salad</div>
+            </div>
+          </div>
+
+          <p style="color: #666; font-size: 0.9rem; margin-top: 16px; font-style: italic;">
+            18 total ingredients across 3 dishes
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary">← Back to Edit</button>
+      <button class="btn btn-primary" style="font-size: 1.1rem; padding: 16px 48px;">📱 Send to iPhone</button>
+      <button class="btn btn-secondary">💾 Save Meal</button>
+    </div>
+  </div>
+
+  <script>
+    // Simple tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
