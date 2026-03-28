@@ -315,14 +315,14 @@ export default function MealSummary() {
         <div className="flex flex-wrap gap-3 justify-center">
           <button
             onClick={() => {/* TODO: Save meal */}}
-            style={{ backgroundColor: '#1e2f2c' }}
+            style={{ backgroundColor: '#8d2831' }}
             className="px-6 py-3 text-base font-medium text-white rounded-xl hover:opacity-90 transition-opacity shadow-md"
           >
             💾 Save This Meal
           </button>
           <button
             onClick={() => router.back()}
-            style={{ backgroundColor: '#1e2f2c' }}
+            style={{ backgroundColor: '#8d2831' }}
             className="px-6 py-3 text-base font-medium text-white rounded-xl hover:opacity-90 transition-opacity shadow-md"
           >
             ← Back to Edit

@@ -67,7 +67,7 @@ export default function PlateIndicator({
 
         {/* Vegetable section (top half - 180° for 50% of plate) */}
         <motion.path
-          d="M 50 50 L 50 2 A 48 48 0 1 1 50 98 Z"
+          d="M 50 50 L 2 50 A 48 48 0 0 1 98 50 Z"
           fill={vegetableColor}
           opacity={opacity(hasVegetables)}
           initial={false}

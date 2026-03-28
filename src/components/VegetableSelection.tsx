@@ -195,7 +195,8 @@ export default function VegetableSelection({ vegetables }: VegetableSelectionPro
           <div className="flex gap-4">
             <button
               onClick={handleSkip}
-              className="px-6 py-3 text-base font-medium text-neutral-700 bg-white border-2 border-neutral-300 rounded-xl hover:border-neutral-400 hover:bg-neutral-50 transition-all shadow-sm"
+              style={{ backgroundColor: '#4ade80' }}
+              className="px-6 py-3 text-base font-semibold text-white rounded-xl hover:opacity-90 transition-opacity shadow-md"
             >
               Skip - I'll choose later
             </button>
