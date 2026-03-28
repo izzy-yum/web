@@ -65,9 +65,9 @@ export default function PlateIndicator({
           strokeWidth="2"
         />
 
-        {/* Vegetable section (top half - 180°) */}
+        {/* Vegetable section (top half - 180° for 50% of plate) */}
         <motion.path
-          d="M 50 50 L 50 2 A 48 48 0 0 1 98 50 Z"
+          d="M 50 50 L 50 2 A 48 48 0 1 1 50 98 Z"
           fill={vegetableColor}
           opacity={opacity(hasVegetables)}
           initial={false}
@@ -77,7 +77,7 @@ export default function PlateIndicator({
           transition={{ duration: 0.3 }}
         />
 
-        {/* Grain section (bottom left quarter - 90°) */}
+        {/* Grain section (bottom left quarter - 90° for 25% of plate) */}
         <motion.path
           d="M 50 50 L 2 50 A 48 48 0 0 0 50 98 Z"
           fill={grainColor}
@@ -89,7 +89,7 @@ export default function PlateIndicator({
           transition={{ duration: 0.3 }}
         />
 
-        {/* Protein section (bottom right quarter - 90°) */}
+        {/* Protein section (bottom right quarter - 90° for 25% of plate) */}
         <motion.path
           d="M 50 50 L 50 98 A 48 48 0 0 0 98 50 Z"
           fill={proteinColor}
@@ -101,8 +101,7 @@ export default function PlateIndicator({
           transition={{ duration: 0.3 }}
         />
 
-        {/* Divider lines */}
-        <line x1="50" y1="50" x2="50" y2="2" stroke="#9ca3af" strokeWidth="1.5" opacity="0.5" />
+        {/* Divider lines (only 3 lines for 3 sections) */}
         <line x1="50" y1="50" x2="2" y2="50" stroke="#9ca3af" strokeWidth="1.5" opacity="0.5" />
         <line x1="50" y1="50" x2="98" y2="50" stroke="#9ca3af" strokeWidth="1.5" opacity="0.5" />
         <line x1="50" y1="50" x2="50" y2="98" stroke="#9ca3af" strokeWidth="1.5" opacity="0.5" />
@@ -116,7 +115,7 @@ export default function PlateIndicator({
           >
             <text
               x="50"
-              y="28"
+              y="35"
               fontSize={checkSize}
               fill="#ffffff"
               textAnchor="middle"

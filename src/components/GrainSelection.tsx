@@ -160,7 +160,7 @@ export default function GrainSelection({ grains }: GrainSelectionProps) {
         <div className="text-center">
           <button
             onClick={handleSkip}
-            className="px-6 py-3 text-base font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+            className="px-6 py-3 text-base font-medium text-neutral-700 bg-white border-2 border-neutral-300 rounded-xl hover:border-neutral-400 hover:bg-neutral-50 transition-all shadow-sm"
           >
             Skip - I'll choose later
           </button>
