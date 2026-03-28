@@ -17,7 +17,7 @@ interface SideDishData {
 
 export default function MealSummary() {
   const router = useRouter()
-  const { protein, grain, vegetables, servings, clearMeal } = useMeal()
+  const { protein, grain, vegetables, servings, clearMeal, removeVegetable } = useMeal()
   const [loading, setLoading] = useState(true)
   const [recipeData, setRecipeData] = useState<RecipeData | null>(null)
   const [grainData, setGrainData] = useState<SideDishData | null>(null)

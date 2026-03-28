@@ -38,7 +38,6 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false)
-  const [showCompletePlatePrompt, setShowCompletePlatePrompt] = useState(true)
   const { setProtein } = useMeal()
 
   const handleServingSelect = async (servings: number) => {
@@ -123,30 +122,22 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
         />
 
         {/* Complete Your Plate Suggestion */}
-        {showCompletePlatePrompt && selectedServings && calculatedRecipe && (
+        {selectedServings && calculatedRecipe && (
           <div className="mb-6">
             <div className="rounded-xl p-6 text-center" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #4ade80 100%)' }}>
               <h3 className="text-xl font-heading font-bold text-white mb-2">
-                🍽️ Complete Your Balanced Plate?
+                🍽️ Want a Complete Balanced Plate?
               </h3>
               <p className="text-white/90 mb-4 text-sm">
                 Add a grain and vegetables for a nutritionally complete meal (optional)
               </p>
-              <div className="flex gap-3 justify-center">
-                <a
-                  href="/meal/grain"
-                  style={{ backgroundColor: '#1e2f2c' }}
-                  className="px-6 py-2 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity"
-                >
-                  Yes, Complete Plate →
-                </a>
-                <button
-                  onClick={() => setShowCompletePlatePrompt(false)}
-                  className="px-6 py-2 text-base font-medium bg-white/30 text-white rounded-lg hover:bg-white/40 transition-colors"
-                >
-                  No Thanks
-                </button>
-              </div>
+              <a
+                href="/meal/grain"
+                style={{ backgroundColor: '#1e2f2c' }}
+                className="inline-block px-8 py-3 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity shadow-lg"
+              >
+                Complete Your Plate →
+              </a>
             </div>
           </div>
         )}
