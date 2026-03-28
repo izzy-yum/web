@@ -329,7 +329,8 @@ export default function MealSummary() {
           </button>
           <button
             onClick={clearMeal}
-            className="px-6 py-3 text-base font-medium bg-neutral-600 text-white rounded-xl hover:bg-neutral-700 transition-colors shadow-md"
+            style={{ backgroundColor: '#8d2831' }}
+            className="px-6 py-3 text-base font-medium text-white rounded-xl hover:opacity-90 transition-opacity shadow-md"
           >
             🗑️ Start Over
           </button>

@@ -203,8 +203,8 @@ export default function VegetableSelection({ vegetables }: VegetableSelectionPro
             <button
               onClick={handleContinue}
               disabled={!canContinue}
-              style={{ backgroundColor: '#1e2f2c' }}
-              className="px-8 py-3 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundColor: '#4ade80' }}
+              className="px-8 py-3 text-base font-semibold rounded-xl text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
             >
               {canContinue ? 'View Complete Meal' : 'Select at least one vegetable'}
             </button>
