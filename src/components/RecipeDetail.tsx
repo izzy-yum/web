@@ -26,6 +26,9 @@ interface Recipe {
   recipe_instructions: any[]
   proteins?: { name: string; slug: string }
   cuisines?: { name: string; slug: string }
+  includes_protein?: boolean
+  includes_grain?: boolean
+  includes_vegetable?: boolean
 }
 
 interface RecipeDetailProps {
@@ -38,7 +41,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false)
-  const { setProtein } = useMeal()
+  const { setProtein, setGrain, addVegetable } = useMeal()
 
   const handleServingSelect = async (servings: number) => {
     setSelectedServings(servings)
@@ -74,6 +77,24 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
         },
         servings
       )
+
+      // Auto-fill grain section if recipe includes grain
+      if (initialRecipe.includes_grain) {
+        setGrain({
+          id: 'recipe-grain',
+          name: `${initialRecipe.name} (includes grain)`,
+          slug: initialRecipe.slug,
+        })
+      }
+
+      // Auto-fill vegetable section if recipe includes vegetables
+      if (initialRecipe.includes_vegetable) {
+        addVegetable({
+          id: 'recipe-vegetable',
+          name: `${initialRecipe.name} (includes vegetables)`,
+          slug: initialRecipe.slug,
+        })
+      }
     } catch (err) {
       console.error('Error calculating recipe:', err)
       setError('Failed to calculate serving sizes. Please try again.')
@@ -121,18 +142,24 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
           isLoading={isLoading}
         />
 
-        {/* Complete Your Plate Suggestion */}
-        {selectedServings && calculatedRecipe && (
+        {/* Complete Your Plate Suggestion - Only show if missing components */}
+        {selectedServings && calculatedRecipe && (!initialRecipe.includes_grain || !initialRecipe.includes_vegetable) && (
           <div className="mb-6">
             <div className="rounded-xl p-6 text-center" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #4ade80 100%)' }}>
               <h3 className="text-xl font-heading font-bold text-white mb-2">
-                🍽️ Want a Complete Balanced Plate?
+                🍽️ {initialRecipe.includes_grain && initialRecipe.includes_vegetable
+                  ? '✓ Complete Balanced Plate!'
+                  : 'Want a Complete Balanced Plate?'}
               </h3>
               <p className="text-white/90 mb-4 text-sm">
-                Add a grain and vegetables for a nutritionally complete meal (optional)
+                {initialRecipe.includes_grain && !initialRecipe.includes_vegetable
+                  ? 'This recipe includes grain. Add vegetables for a complete plate!'
+                  : !initialRecipe.includes_grain && initialRecipe.includes_vegetable
+                    ? 'This recipe includes vegetables. Add a grain for a complete plate!'
+                    : 'Add a grain and vegetables for a nutritionally complete meal (optional)'}
               </p>
               <a
-                href="/meal/grain"
+                href={!initialRecipe.includes_grain ? '/meal/grain' : '/meal/vegetables'}
                 style={{ backgroundColor: '#1e2f2c' }}
                 className="inline-block px-8 py-3 text-base font-semibold rounded-lg text-white hover:opacity-90 transition-opacity shadow-lg"
               >
