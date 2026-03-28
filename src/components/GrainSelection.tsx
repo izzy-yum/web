@@ -24,8 +24,11 @@ interface GrainSelectionProps {
 
 export default function GrainSelection({ grains }: GrainSelectionProps) {
   const router = useRouter()
-  const { protein, setGrain } = useMeal()
+  const { protein, vegetables, setGrain } = useMeal()
   const [selectedGrainId, setSelectedGrainId] = useState<string | null>(null)
+
+  // Check if we're in editing mode (user already has vegetables selected)
+  const isEditing = vegetables.length > 0
 
   const handleGrainSelect = (grain: Grain) => {
     setSelectedGrainId(grain.id)
@@ -36,9 +39,15 @@ export default function GrainSelection({ grains }: GrainSelectionProps) {
       image_url: grain.image_url,
     })
 
-    // Navigate to vegetable selection after short delay
+    // Navigate based on context
     setTimeout(() => {
-      router.push('/meal/vegetables')
+      if (isEditing) {
+        // User is editing, return to meal summary
+        router.push('/meal/summary')
+      } else {
+        // Initial flow, continue to vegetables
+        router.push('/meal/vegetables')
+      }
     }, 800)
   }
 

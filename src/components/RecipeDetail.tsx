@@ -38,6 +38,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isShoppingListOpen, setIsShoppingListOpen] = useState(false)
+  const [showCompletePlatePrompt, setShowCompletePlatePrompt] = useState(true)
   const { setProtein } = useMeal()
 
   const handleServingSelect = async (servings: number) => {
@@ -122,7 +123,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
         />
 
         {/* Complete Your Plate Suggestion */}
-        {selectedServings && calculatedRecipe && (
+        {showCompletePlatePrompt && selectedServings && calculatedRecipe && (
           <div className="mb-6">
             <div className="rounded-xl p-6 text-center" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #4ade80 100%)' }}>
               <h3 className="text-xl font-heading font-bold text-white mb-2">
@@ -140,7 +141,7 @@ export default function RecipeDetail({ initialRecipe }: RecipeDetailProps) {
                   Yes, Complete Plate →
                 </a>
                 <button
-                  onClick={() => {/* Just collapse this banner */}}
+                  onClick={() => setShowCompletePlatePrompt(false)}
                   className="px-6 py-2 text-base font-medium bg-white/30 text-white rounded-lg hover:bg-white/40 transition-colors"
                 >
                   No Thanks

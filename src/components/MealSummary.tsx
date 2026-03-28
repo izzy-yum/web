@@ -208,22 +208,37 @@ export default function MealSummary() {
 
             {/* Vegetables */}
             {vegetables.length > 0 ? (
-              <div className="flex items-center gap-4 p-5 bg-white/15 rounded-xl">
-                <div className="text-4xl min-w-[60px] text-center">🥦</div>
-                <div className="flex-1">
-                  <div className="text-xl font-bold text-white">
-                    {vegetables.map(v => v.name).join(' + ')}
+              <div className="p-5 bg-white/15 rounded-xl">
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="text-4xl min-w-[60px] text-center">🥦</div>
+                  <div className="flex-1">
+                    <div className="text-xl font-bold text-white">Vegetables</div>
+                    <div className="text-sm text-neutral-200">
+                      {vegetables.length} selected • Fills 1/2 of plate
+                    </div>
                   </div>
-                  <div className="text-sm text-neutral-200">
-                    Vegetable{vegetables.length > 1 ? 's' : ''} • Fills 1/2 of plate
-                  </div>
+                  <a
+                    href="/meal/vegetables"
+                    className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold px-4 py-2 border-2 border-yellow-300 rounded-lg hover:bg-yellow-300 hover:text-neutral-900 transition-all"
+                  >
+                    Add More
+                  </a>
                 </div>
-                <a
-                  href="/meal/vegetables"
-                  className="text-yellow-300 hover:text-yellow-200 text-sm font-semibold px-4 py-2 border-2 border-yellow-300 rounded-lg hover:bg-yellow-300 hover:text-neutral-900 transition-all"
-                >
-                  Change
-                </a>
+                {/* List of vegetables with remove buttons */}
+                <div className="ml-[76px] space-y-2">
+                  {vegetables.map((veg) => (
+                    <div key={veg.id} className="flex items-center justify-between bg-white/10 rounded-lg px-4 py-2">
+                      <span className="text-white font-medium">{veg.name}</span>
+                      <button
+                        onClick={() => removeVegetable(veg.id)}
+                        className="text-red-300 hover:text-red-200 text-sm font-semibold px-3 py-1 hover:bg-red-500/20 rounded transition-all"
+                        title="Remove this vegetable"
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : (
               <div className="flex items-center gap-4 p-5 bg-white/10 rounded-xl border-2 border-dashed border-white/30">
