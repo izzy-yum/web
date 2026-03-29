@@ -1,13 +1,16 @@
 'use client'
 
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { decimalToFraction } from '@/lib/fractions'
+import { consolidateIngredients } from '@/lib/ingredientConsolidation'
 
 interface Ingredient {
   ingredient: string
   amount: number | null
   unit: string | null
   category: string | null
-  source: string // Which dish it's from
+  source: string
 }
 
 interface CompleteMealShoppingListProps {
@@ -31,19 +34,27 @@ export default function CompleteMealShoppingList({
   grainName,
   vegetableNames,
 }: CompleteMealShoppingListProps) {
+  const [checkedItems, setCheckedItems] = useState<Set<string>>(new Set())
+
   // Combine all ingredients with source
   const allIngredients: Ingredient[] = [
     ...recipeIngredients.map((ing: any) => ({ ...ing, source: recipeName })),
     ...grainIngredients.map((ing: any) => ({ ...ing, source: grainName || 'Grain' })),
-    ...vegetableIngredients.flat().map((ing: any, idx: number) => ({
-      ...ing,
-      source: vegetableNames[Math.floor(idx / (vegetableIngredients[0]?.length || 1))] || 'Vegetable',
-    })),
+    ...vegetableIngredients.flat().map((ing: any, idx: number) => {
+      const vegIndex = vegetableIngredients.findIndex((vegIngs) => vegIngs.includes(ing))
+      return {
+        ...ing,
+        source: vegetableNames[vegIndex] || 'Vegetable',
+      }
+    }),
   ]
 
+  // Consolidate duplicate ingredients
+  const consolidatedIngredients = consolidateIngredients(allIngredients)
+
   // Group by category
-  const grouped: Record<string, Ingredient[]> = {}
-  allIngredients.forEach((ing) => {
+  const grouped: Record<string, typeof consolidatedIngredients> = {}
+  consolidatedIngredients.forEach((ing) => {
     const category = ing.category || 'Other'
     if (!grouped[category]) {
       grouped[category] = []
@@ -52,6 +63,16 @@ export default function CompleteMealShoppingList({
   })
 
   const categories = Object.keys(grouped).sort()
+
+  const handleToggle = (key: string) => {
+    const newChecked = new Set(checkedItems)
+    if (newChecked.has(key)) {
+      newChecked.delete(key)
+    } else {
+      newChecked.add(key)
+    }
+    setCheckedItems(newChecked)
+  }
 
   return (
     <AnimatePresence>
@@ -66,75 +87,100 @@ export default function CompleteMealShoppingList({
             className="fixed inset-0 bg-black/50 z-40"
           />
 
-          {/* Modal */}
+          {/* Side Panel - Legal Pad Style (matching ShoppingListPanel) */}
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[600px] md:max-h-[80vh] bg-white rounded-2xl shadow-2xl z-50 overflow-hidden flex flex-col"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            style={{ backgroundColor: '#FFF9C4' }}
+            className="fixed top-0 right-0 h-full w-full sm:w-96 shadow-2xl z-50 overflow-y-auto border-l-8 border-red-400 font-[var(--font-handwriting)]"
           >
-            {/* Header */}
-            <div className="p-6 border-b border-neutral-200">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-heading font-bold text-neutral-900">
-                  🛒 Complete Meal Shopping List
+            <div className="p-6 pl-8">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6 pb-3 border-b-2 border-blue-300">
+                <h2 className="text-3xl font-bold text-black">
+                  Complete Meal
                 </h2>
                 <button
                   onClick={onClose}
-                  className="text-neutral-500 hover:text-neutral-700 transition-colors"
+                  className="text-black hover:text-neutral-700 transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
-              <p className="text-sm text-neutral-600 mt-2">
-                Ingredients from {recipeName}
-                {grainName && ` + ${grainName}`}
-                {vegetableNames.length > 0 && ` + ${vegetableNames.join(' + ')}`}
-              </p>
-            </div>
 
-            {/* Shopping List Content */}
-            <div className="flex-1 overflow-y-auto p-6">
-              {categories.map((category) => (
-                <div key={category} className="mb-6">
-                  <h3 className="font-bold text-lg mb-3 text-neutral-900 pb-2 border-b-2 border-neutral-200">
-                    {category}
-                  </h3>
-                  <ul className="space-y-2">
-                    {grouped[category].map((ing, idx) => (
-                      <li key={idx} className="flex items-start gap-3 py-2">
-                        <div className="mt-1">
-                          <input type="checkbox" className="w-4 h-4 rounded border-neutral-300" />
-                        </div>
-                        <div className="flex-1">
-                          {ing.amount && ing.unit && (
-                            <span className="font-semibold text-neutral-900">
-                              {ing.amount} {ing.unit}{' '}
-                            </span>
-                          )}
-                          <span className="text-neutral-700">{ing.ingredient}</span>
-                          <span className="text-xs text-neutral-500 ml-2">
-                            ({ing.source})
-                          </span>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+              <div className="mb-6 pb-3 border-b border-blue-200">
+                <p className="text-lg text-black font-semibold">
+                  {recipeName}
+                </p>
+                {grainName && (
+                  <p className="text-base text-black">+ {grainName}</p>
+                )}
+                {vegetableNames.map((veg) => (
+                  <p key={veg} className="text-base text-black">+ {veg}</p>
+                ))}
+                <p className="text-sm text-black mt-3 italic">
+                  ✓ Check items you already have
+                </p>
+              </div>
 
-            {/* Footer Actions */}
-            <div className="p-6 border-t border-neutral-200">
-              <button
-                onClick={onClose}
-                style={{ backgroundColor: '#8d2831' }}
-                className="w-full py-3 px-6 text-base font-semibold rounded-xl text-white hover:opacity-90 transition-opacity"
-              >
-                Close
-              </button>
+              {/* Ingredients by Category */}
+              <div className="space-y-6 mb-6">
+                {categories.map((category) => (
+                  <div key={category}>
+                    <h3 className="font-bold text-black mb-3 text-xl pb-2 border-b-2 border-blue-300">
+                      {category}
+                    </h3>
+                    <ul className="space-y-0">
+                      {grouped[category].map((ing, idx) => {
+                        const itemKey = `${category}-${ing.ingredient}-${idx}`
+                        const isChecked = checkedItems.has(itemKey)
+                        return (
+                          <li key={itemKey} className="flex items-start gap-3 py-3 border-b border-blue-200">
+                            <input
+                              type="checkbox"
+                              id={itemKey}
+                              checked={isChecked}
+                              onChange={() => handleToggle(itemKey)}
+                              className="mt-1 w-5 h-5 rounded-none border-2 border-black text-black focus:ring-neutral-500 cursor-pointer"
+                            />
+                            <label
+                              htmlFor={itemKey}
+                              className={`flex-1 cursor-pointer text-lg text-black ${isChecked ? 'line-through' : ''}`}
+                            >
+                              {ing.amount && ing.unit && (
+                                <span className="font-bold">
+                                  {decimalToFraction(ing.amount)} {ing.unit}{' '}
+                                </span>
+                              )}
+                              <span className="capitalize">{ing.ingredient}</span>
+                              {ing.sources && ing.sources.length > 1 && (
+                                <span className="text-sm text-black/70 ml-2">
+                                  (for {ing.sources.join(', ')})
+                                </span>
+                              )}
+                            </label>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              {/* Close Button */}
+              <div className="sticky bottom-0 pt-6 pb-2 border-t-2 border-blue-300" style={{ backgroundColor: '#FFF9C4' }}>
+                <button
+                  onClick={onClose}
+                  style={{ backgroundColor: '#1e2f2c' }}
+                  className="w-full py-4 px-4 text-xl font-bold rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-500 transition-opacity shadow-lg hover:opacity-90"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </motion.div>
         </>
