@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMeal } from '@/contexts/MealContext'
 import { supabase } from '@/lib/supabase'
+import CompleteMealShoppingList from './CompleteMealShoppingList'
+import CookingTimeline from './CookingTimeline'
 
 interface RecipeData {
   recipe_ingredients: any[]
@@ -22,6 +24,8 @@ export default function MealSummary() {
   const [recipeData, setRecipeData] = useState<RecipeData | null>(null)
   const [grainData, setGrainData] = useState<SideDishData | null>(null)
   const [vegetableData, setVegetableData] = useState<SideDishData[]>([])
+  const [showShoppingList, setShowShoppingList] = useState(false)
+  const [showTimeline, setShowTimeline] = useState(false)
 
   useEffect(() => {
     // Fetch complete data for all components
@@ -296,14 +300,14 @@ export default function MealSummary() {
             </button>
 
             <button
-              onClick={() => {/* TODO: Show expanded shopping list */}}
+              onClick={() => setShowShoppingList(true)}
               className="w-full py-3 px-6 text-base font-semibold rounded-xl text-white bg-white/20 hover:bg-white/30 transition-colors"
             >
               📋 View Full Shopping List
             </button>
 
             <button
-              onClick={() => {/* TODO: Show cooking timeline */}}
+              onClick={() => setShowTimeline(true)}
               className="w-full py-3 px-6 text-base font-semibold rounded-xl text-white bg-white/20 hover:bg-white/30 transition-colors"
             >
               ⏰ View Cooking Timeline
@@ -336,6 +340,29 @@ export default function MealSummary() {
           </button>
         </div>
       </div>
+
+      {/* Modals */}
+      <CompleteMealShoppingList
+        isOpen={showShoppingList}
+        onClose={() => setShowShoppingList(false)}
+        recipeIngredients={recipeData?.recipe_ingredients || []}
+        grainIngredients={grainData?.side_dish_ingredients || []}
+        vegetableIngredients={vegetableData.map((v) => v.side_dish_ingredients || [])}
+        recipeName={protein.name}
+        grainName={grain?.name || null}
+        vegetableNames={vegetables.map((v) => v.name)}
+      />
+
+      <CookingTimeline
+        isOpen={showTimeline}
+        onClose={() => setShowTimeline(false)}
+        recipeName={protein.name}
+        recipeTime={30}
+        grainName={grain?.name || null}
+        grainTime={grain ? 15 : 0}
+        vegetableNames={vegetables.map((v) => v.name)}
+        vegetableTimes={vegetables.map(() => 10)}
+      />
     </div>
   )
 }
