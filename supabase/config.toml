@@ -107,9 +107,16 @@ file_size_limit = "50MiB"
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://127.0.0.1:3000"
+site_url = "http://localhost:9001"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+additional_redirect_urls = [
+  "http://localhost:9001",
+  "http://localhost:9001/auth/test",
+  "http://127.0.0.1:9001",
+  "http://127.0.0.1:9001/auth/test",
+  "https://izzy-yum.com",
+  "https://izzy-yum.com/auth/callback",
+]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # If disabled, the refresh token will never expire.
@@ -244,9 +251,12 @@ max_frequency = "5s"
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
 # `twitter`, `slack`, `spotify`, `workos`, `zoom`.
 [auth.external.apple]
-enabled = false
-client_id = ""
+enabled = true
+client_id = "com.izzyyum.app.web-signin"
 # DO NOT commit your OAuth provider secret to git. Use environment variable substitution instead:
+# SUPABASE_AUTH_EXTERNAL_APPLE_SECRET is the ES256 JWT produced by
+# scripts/generate-apple-client-secret.js; rotates every ~180 days.
+# See infrastructure/RUNBOOK_OAUTH_SETUP.md.
 secret = "env(SUPABASE_AUTH_EXTERNAL_APPLE_SECRET)"
 # Overrides the default auth redirectUrl.
 redirect_uri = ""
